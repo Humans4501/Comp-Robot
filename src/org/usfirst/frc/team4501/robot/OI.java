@@ -4,12 +4,11 @@ import org.usfirst.frc.team4501.robot.commands.Eject;
 import org.usfirst.frc.team4501.robot.commands.IntakeClose;
 import org.usfirst.frc.team4501.robot.commands.IntakeInwards;
 import org.usfirst.frc.team4501.robot.commands.IntakeOpen;
-import org.usfirst.frc.team4501.robot.commands.IntakeOutwards;
-import org.usfirst.frc.team4501.robot.commands.IntakeStop;
-import org.usfirst.frc.team4501.robot.commands.LowGoal;
 import org.usfirst.frc.team4501.robot.commands.MyNameIsBoxy;
+import org.usfirst.frc.team4501.robot.commands.MyNameIsBoxy2;
 import org.usfirst.frc.team4501.robot.commands.ShiftHigh;
 import org.usfirst.frc.team4501.robot.commands.ShiftLow;
+import org.usfirst.frc.team4501.robot.commands.StopEverything;
 
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -57,12 +56,12 @@ public class OI {
 	Button shiftLow = new JoystickButton(controller, controller.BUTTON_B);
 
 	// Intake
-	Button intakeOpen = new JoystickButton(controller2, controller2.BUTTON_Y);
-	Button intakeIn = new JoystickButton(controller2, controller2.BUTTON_X);
+	Button intakeOpen = new JoystickButton(controller2, controller2.BUTTON_X);
+	Button intakeClose = new JoystickButton(controller2, controller2.BUTTON_Y);
 	
 	//Command Groups
 	Button partUno = new JoystickButton(controller2, controller2.BUTTON_A);
-	Button partTwo = new JoystickButton(controller2, controller2.BUTTON_B);
+	Button partDos = new JoystickButton(controller2, controller2.BUTTON_B);
 	Button ejection = new JoystickButton(controller2, controller2.BUTTON_START);
 
 	public OI() {
@@ -70,16 +69,16 @@ public class OI {
 		shiftLow.whenPressed(new ShiftLow());
 
 		intakeOpen.toggleWhenPressed(new IntakeOpen());
-		intakeOpen.toggleWhenPressed(new IntakeClose());
+		intakeOpen.cancelWhenPressed(new IntakeClose());
 		
-		intakeIn.whileHeld(new IntakeInwards());
-		intakeIn.whenReleased(new IntakeStop());
+		partUno.whileHeld(new MyNameIsBoxy());
+		partUno.whenReleased(new StopEverything());
 		
-		partUno.whenPressed(new MyNameIsBoxy());
-		partTwo.whenPressed(new LowGoal());
+		partDos.whileHeld(new MyNameIsBoxy2());
+		partDos.whenReleased(new StopEverything());
 		
 		ejection.whileHeld(new Eject());
-		ejection.whenReleased(new IntakeStop());
+		ejection.whenReleased(new StopEverything());
 	}
 
 	public double getTriggers() {

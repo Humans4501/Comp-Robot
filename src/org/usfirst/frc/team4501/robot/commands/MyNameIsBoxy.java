@@ -25,8 +25,7 @@ public class MyNameIsBoxy extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addParallel(new Intake(1));
-    	addParallel(new ShootWhileIntake(1));
-    	addParallel(new ConveyWhileIntake(1));
+    	addParallel(new IntakeInwards());
+    	addParallel(new Shoot());
     }
 }

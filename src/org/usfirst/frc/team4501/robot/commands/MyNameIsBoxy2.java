@@ -5,12 +5,12 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class LowGoal extends CommandGroup {
+public class MyNameIsBoxy2 extends CommandGroup {
 
-    public LowGoal() {
+    public MyNameIsBoxy2() {
         // Add Commands here:
-
-    	
+        // e.g. addSequential(new Command1());
+        //      addSequential(new Command2());
         // these will run in order.
 
         // To run multiple commands at the same time,
@@ -24,8 +24,9 @@ public class LowGoal extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addParallel(new Shoot(2));
-    	addParallel(new Convey(3));
+    	
+    	addParallel(new Shoot());
+        addParallel(new Convey());
     	
     }
 }

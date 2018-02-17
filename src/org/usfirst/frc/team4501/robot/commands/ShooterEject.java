@@ -2,15 +2,15 @@ package org.usfirst.frc.team4501.robot.commands;
 
 import org.usfirst.frc.team4501.robot.Robot;
 
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
 /**
  *
  */
-public class ShooterEject extends TimedCommand {
+public class ShooterEject extends Command {
 
-    public ShooterEject(double timeout) {
-        super(timeout);
+    public ShooterEject() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         requires(Robot.shooter);
@@ -22,16 +22,22 @@ public class ShooterEject extends TimedCommand {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooter.shoot(-0.25, -0.25);
+    	Robot.shooter.shoot(-1, -1);
     }
 
     // Called once after timeout
     protected void end() {
-    	Robot.shooter.shoot(0, 0);
+   
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     }
+
+	@Override
+	protected boolean isFinished() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

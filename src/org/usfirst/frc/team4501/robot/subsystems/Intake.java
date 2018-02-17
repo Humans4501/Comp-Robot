@@ -2,7 +2,6 @@ package org.usfirst.frc.team4501.robot.subsystems;
 
 import org.usfirst.frc.team4501.robot.Robot;
 import org.usfirst.frc.team4501.robot.RobotMap;
-import org.usfirst.frc.team4501.robot.commands.IntakeStop;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -64,7 +63,7 @@ public class Intake extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new IntakeStop()); 
+    	
     
     }
 }

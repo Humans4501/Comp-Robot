@@ -25,8 +25,8 @@ public class Eject extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addParallel(new IntakeEject(3));
-    	addParallel(new ConveyorEject(1));
-    	addParallel(new ShooterEject(2));
+    	addParallel(new ConveyorEject());
+    	addParallel(new ShooterEject());
+    	addParallel(new IntakeEject());
     }
 }
