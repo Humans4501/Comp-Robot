@@ -22,7 +22,7 @@ public class ConveyorEject extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.conveyor.convey(-1,-1);
+    	Robot.conveyor.convey(-0.5,-0.5);
     }
 
     // Called once after timeout

@@ -7,15 +7,21 @@
 
 package org.usfirst.frc.team4501.robot;
 
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team4501.robot.commands.AutoCenterGroup;
+import org.usfirst.frc.team4501.robot.commands.AutoLeftorRightGroup;
+import org.usfirst.frc.team4501.robot.commands.DriveAutoTimed;
 import org.usfirst.frc.team4501.robot.commands.DriveUntilCollision;
 import org.usfirst.frc.team4501.robot.commands.ExampleCommand;
+import org.usfirst.frc.team4501.robot.commands.VisionPID;
 import org.usfirst.frc.team4501.robot.subsystems.Intake;
 import org.usfirst.frc.team4501.robot.subsystems.Conveyor;
 import org.usfirst.frc.team4501.robot.subsystems.Drivetrain;
@@ -30,7 +36,12 @@ import org.usfirst.frc.team4501.robot.subsystems.Shooter;
  * project.
  */
 public class Robot extends TimedRobot {
+	public static Robot instance;
+//	RobotDrive myDrive = new RobotDrive(RobotMap.TALON_1, RobotMap.TALON_2);
 
+	
+	NetworkTable table;
+	
 	public static final ExampleSubsystem kExampleSubsystem = new ExampleSubsystem();
 	public static final Drivetrain driveTrain = new Drivetrain();
 
@@ -49,6 +60,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		instance = this;
 		oi = new OI();
 		m_chooser.addDefault("Default Auto", new ExampleCommand());
 		m_chooser.addDefault("Testing Collision", new DriveUntilCollision());
@@ -56,6 +68,17 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Auto mode", m_chooser);
 		SmartDashboard.putNumber("CurrXACCL:", 0);
 		SmartDashboard.putNumber("CurrYACCL:", 0);
+		
+		NetworkTable.setIPAddress("10.95.1.55");
+		table = NetworkTable.getTable("limelight");
+		// chooser.addObject("My Auto", new MyAutoCommand());
+		SmartDashboard.putData("Auto mode", m_chooser);
+		
+		m_chooser.addObject("Test Timed Auto", new DriveAutoTimed(1));
+		m_chooser.addObject("Test VisionPID", new VisionPID());
+		
+		m_chooser.addObject("Center", new AutoCenterGroup());
+		m_chooser.addObject("Left/Right", new AutoLeftorRightGroup());
 	}
 
 	/**
@@ -108,6 +131,17 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		
+		//L I M E L I G H T
+//				double tx = table.getNumber("tx", 0);
+//				double ty = table.getNumber("ty", 0);
+//				double targetArea = table.getNumber("ta", 0);
+//				double targetSkew = table.getNumber("ts", 0);
+//				double targetView = table.getNumber("tv", 0);
+//
+//				SmartDashboard.putNumber("targetView", targetView);
+//				SmartDashboard.putNumber("tx", tx);
+//				SmartDashboard.putNumber("ty", ty);
 	}
 
 	@Override
@@ -137,4 +171,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 	}
+	
+//	public void setArcadeDrive(double move, double turn) {
+//		//TO DO: CHANGE 0 BACK TO TURN SO IT MOVES AND TURNS AT THE SAME TIME
+//		myDrive.arcadeDrive(move, turn);
+//	}
 }
