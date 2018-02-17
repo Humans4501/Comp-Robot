@@ -133,15 +133,15 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 		
 		//L I M E L I G H T
-				double tx = table.getNumber("tx", 0);
-				double ty = table.getNumber("ty", 0);
-				double targetArea = table.getNumber("ta", 0);
-				double targetSkew = table.getNumber("ts", 0);
-				double targetView = table.getNumber("tv", 0);
-
-				SmartDashboard.putNumber("targetView", targetView);
-				SmartDashboard.putNumber("tx", tx);
-				SmartDashboard.putNumber("ty", ty);
+//				double tx = table.getNumber("tx", 0);
+//				double ty = table.getNumber("ty", 0);
+//				double targetArea = table.getNumber("ta", 0);
+//				double targetSkew = table.getNumber("ts", 0);
+//				double targetView = table.getNumber("tv", 0);
+//
+//				SmartDashboard.putNumber("targetView", targetView);
+//				SmartDashboard.putNumber("tx", tx);
+//				SmartDashboard.putNumber("ty", ty);
 	}
 
 	@Override
