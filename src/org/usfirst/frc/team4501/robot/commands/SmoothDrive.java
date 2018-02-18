@@ -28,7 +28,7 @@ public class SmoothDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	long now = System.currentTimeMillis();
-    	long deltaTime = lastTime - now;
+    	long deltaTime = now - lastTime;
     	lastTime = now;
     	
     	double desiredPower = Robot.oi.getTriggers();
@@ -49,6 +49,8 @@ public class SmoothDrive extends Command {
     	Robot.driveTrain.driveTime(-calculatedPower, -Robot.oi.getLeftXboxX());
     	
     	lastPower = calculatedPower;
+    	
+    	System.out.printf("desiredPower = %.2g calculatedPower = %.2g\n", desiredPower , calculatedPower);
     }
 
     // Make this return true when this Command no longer needs to run execute()
