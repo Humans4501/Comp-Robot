@@ -7,26 +7,20 @@
 
 package org.usfirst.frc.team4501.robot;
 
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team4501.robot.commands.AutoCenterGroup;
-import org.usfirst.frc.team4501.robot.commands.AutoLeftorRightGroup;
-import org.usfirst.frc.team4501.robot.commands.DriveAutoTimed;
 import org.usfirst.frc.team4501.robot.commands.DriveUntilCollision;
 import org.usfirst.frc.team4501.robot.commands.ExampleCommand;
-import org.usfirst.frc.team4501.robot.commands.VisionPID;
-import org.usfirst.frc.team4501.robot.subsystems.Intake;
 import org.usfirst.frc.team4501.robot.subsystems.Conveyor;
 import org.usfirst.frc.team4501.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team4501.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team4501.robot.subsystems.Intake;
 import org.usfirst.frc.team4501.robot.subsystems.Shooter;
+
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -74,11 +68,11 @@ public class Robot extends TimedRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 		
-		m_chooser.addObject("Test Timed Auto", new DriveAutoTimed(1));
-		m_chooser.addObject("Test VisionPID", new VisionPID());
-		
-		m_chooser.addObject("Center", new AutoCenterGroup());
-		m_chooser.addObject("Left/Right", new AutoLeftorRightGroup());
+//		m_chooser.addObject("Test Timed Auto", new DriveAutoTimed(1));
+//		m_chooser.addObject("Test VisionPID", new VisionPID());
+//		
+//		m_chooser.addObject("Center", new AutoCenterGroup());
+//		m_chooser.addObject("Left/Right", new AutoLeftorRightGroup());
 	}
 
 	/**
