@@ -95,16 +95,16 @@ public class Drivetrain extends Subsystem {
 	            DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
 	        }
 	        
-	        turnController.setInputRange(-180.0f,  180.0f);
-	        turnController.setOutputRange(-1.0, 1.0);
-	        turnController.setAbsoluteTolerance(kToleranceDegrees);
-	        turnController.setContinuous(true);
-	        turnController.disable();
+//		turnController.setInputRange(-180.0f, 180.0f);
+//		turnController.setOutputRange(-1.0, 1.0);
+//		turnController.setAbsoluteTolerance(kToleranceDegrees);
+//		turnController.setContinuous(true);
+//		turnController.disable();
 	        
 	        /* Add the PID Controller to the Test-mode dashboard, allowing manual  */
 	        /* tuning of the Turn Controller's P, I and D coefficients.            */
 	        /* Typically, only the P value needs to be modified.                   */
-	        LiveWindow.addActuator("DriveSystem", "RotateController", turnController);        
+//		LiveWindow.addActuator("DriveSystem", "RotateController", turnController);
 	    }
 		
 	

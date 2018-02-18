@@ -22,7 +22,7 @@ public class ShooterEject extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.shooter.shoot(-1, -1);
+    	Robot.shooter.shoot(-0.75, -0.75);
     }
 
     // Called once after timeout
