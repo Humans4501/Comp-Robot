@@ -37,7 +37,7 @@ import org.usfirst.frc.team4501.robot.subsystems.Shooter;
  */
 public class Robot extends TimedRobot {
 	public static Robot instance;
-	RobotDrive myDrive = new RobotDrive(RobotMap.TALON_1, RobotMap.TALON_2);
+//	RobotDrive myDrive = new RobotDrive(RobotMap.TALON_1, RobotMap.TALON_2);
 
 	
 	NetworkTable table;
@@ -74,11 +74,11 @@ public class Robot extends TimedRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 		
-		m_chooser.addObject("Test Timed Auto", new DriveAutoTimed(1));
-		m_chooser.addObject("Test VisionPID", new VisionPID());
-		
-		m_chooser.addObject("Center", new AutoCenterGroup());
-		m_chooser.addObject("Left/Right", new AutoLeftorRightGroup());
+//		m_chooser.addObject("Test Timed Auto", new DriveAutoTimed(1));
+//		m_chooser.addObject("Test VisionPID", new VisionPID());
+//		
+//		m_chooser.addObject("Center", new AutoCenterGroup());
+//		m_chooser.addObject("Left/Right", new AutoLeftorRightGroup());
 	}
 
 	/**
@@ -172,8 +172,8 @@ public class Robot extends TimedRobot {
 	public void testPeriodic() {
 	}
 	
-	public void setArcadeDrive(double move, double turn) {
-		//TO DO: CHANGE 0 BACK TO TURN SO IT MOVES AND TURNS AT THE SAME TIME
-		myDrive.arcadeDrive(move, turn);
-	}
+//	public void setArcadeDrive(double move, double turn) {
+//		//TO DO: CHANGE 0 BACK TO TURN SO IT MOVES AND TURNS AT THE SAME TIME
+//		myDrive.arcadeDrive(move, turn);
+//	}
 }
