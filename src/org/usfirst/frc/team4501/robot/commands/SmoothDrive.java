@@ -7,9 +7,14 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class Drive extends Command {
+public class SmoothDrive extends Command {
 
-    public Drive() {
+	public final double maxPowerPerSecond = 1;
+	
+	public double lastPower;
+	public long lastTime;
+	
+    public SmoothDrive() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.driveTrain);
@@ -17,12 +22,33 @@ public class Drive extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	lastTime = System.currentTimeMillis();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	long now = System.currentTimeMillis();
+    	long deltaTime = lastTime - now;
+    	lastTime = now;
     	
-    	Robot.driveTrain.driveTime(-Robot.oi.getTriggers(), -Robot.oi.getLeftXboxX());
+    	double desiredPower = Robot.oi.getTriggers();
+    	
+    	double calculatedPower;
+    	
+    	if(desiredPower > lastPower) {
+    		calculatedPower = lastPower + maxPowerPerSecond * deltaTime/1000;
+    	}
+    	else {
+    		calculatedPower = desiredPower;
+    	}
+		calculatedPower = Math.min(calculatedPower, 1);
+		
+		calculatedPower = Math.max(calculatedPower, -1);
+    	
+    	
+    	Robot.driveTrain.driveTime(-calculatedPower, -Robot.oi.getLeftXboxX());
+    	
+    	lastPower = calculatedPower;
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -9,6 +9,8 @@ import org.usfirst.frc.team4501.robot.commands.MyNameIsBoxy2;
 import org.usfirst.frc.team4501.robot.commands.ShiftHigh;
 import org.usfirst.frc.team4501.robot.commands.ShiftLow;
 import org.usfirst.frc.team4501.robot.commands.StopEverything;
+import org.usfirst.frc.team4501.robot.commands.WinchFast;
+import org.usfirst.frc.team4501.robot.commands.WinchSlow;
 
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -63,6 +65,10 @@ public class OI {
 	Button partUno = new JoystickButton(controller2, controller2.BUTTON_A);
 	Button partDos = new JoystickButton(controller2, controller2.BUTTON_B);
 	Button ejection = new JoystickButton(controller2, controller2.BUTTON_START);
+	
+	//WINCH 
+	Button winchSlow = new JoystickButton(controller2, controller2.BUTTON_X);
+	Button winchFast = new JoystickButton(controller2, controller2.BUTTON_Y);
 
 	public OI() {
 		shiftHigh.whenPressed(new ShiftHigh());
@@ -79,6 +85,9 @@ public class OI {
 		
 		ejection.whileHeld(new Eject());
 		ejection.whenReleased(new StopEverything());
+		
+		winchSlow.whileHeld(new WinchSlow());
+		winchFast.whileHeld(new WinchFast());
 	}
 
 	public double getTriggers() {

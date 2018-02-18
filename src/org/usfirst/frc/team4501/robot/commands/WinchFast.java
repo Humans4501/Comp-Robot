@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class Drive extends Command {
+public class WinchFast extends Command {
 
-    public Drive() {
+    public WinchFast() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.driveTrain);
+    	requires(Robot.winch);
     }
 
     // Called just before this Command runs the first time
@@ -21,8 +21,7 @@ public class Drive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
-    	Robot.driveTrain.driveTime(-Robot.oi.getTriggers(), -Robot.oi.getLeftXboxX());
+    	Robot.winch.Winch(1);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -32,7 +31,6 @@ public class Drive extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.driveTrain.driveTime(0, 0);
     }
 
     // Called when another command which requires one or more of the same
