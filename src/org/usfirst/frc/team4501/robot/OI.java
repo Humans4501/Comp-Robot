@@ -69,7 +69,7 @@ public class OI {
 		shiftLow.whenPressed(new ShiftLow());
 
 		intakeOpen.whenPressed(new IntakeOpen());
-		intakeOpen.whenPressed(new IntakeClose());
+		intakeClose.whenPressed(new IntakeClose());
 		
 		partUno.whileHeld(new MyNameIsBoxy());
 		partUno.whenReleased(new StopEverything());

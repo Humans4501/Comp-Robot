@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4501.robot;
 
+import org.usfirst.frc.team4501.robot.subsystems.Drivetrain;
+
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -43,7 +45,7 @@ public class TurnPID extends PIDSubsystem {
 	protected void usePIDOutput(double output) {
 		System.out.printf("TX=%.2g, TURN=%.2g", tx, -output);
 		currOutput = -output;
-		Robot.instance.setArcadeDrive(MovePID.instance.currOutput, currOutput);
+		Drivetrain.instance.arcadeDrive(MovePID.instance.currOutput, currOutput);
 	}
 
 	@Override
