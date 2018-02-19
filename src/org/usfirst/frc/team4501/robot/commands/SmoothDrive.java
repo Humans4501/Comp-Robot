@@ -9,9 +9,13 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class SmoothDrive extends Command {
 
-	public final double maxPowerPerSecond = 1;
-	public final double threshold = 0.4;
+	public final double maxPowerPerSecond = 1.5;
+	public final double maxTurnPerSecond = 1;
 	
+	public final double thresholdTurn = 0.4;
+	public final double thresholdPower = 0.6;
+	
+	public double lastTurn;
 	public double lastPower;
 	public long lastTime;
 	
@@ -33,10 +37,13 @@ public class SmoothDrive extends Command {
     	lastTime = now;
     	
     	double desiredPower = Robot.oi.getTriggers();
-    	
     	double calculatedPower;
+    
+    	double desiredTurn = Robot.oi.getLeftXboxX();
+    	double calculatedTurn;
     	
     	
+    	//acceleratin
     	if(desiredPower > lastPower) {
     		calculatedPower = lastPower + maxPowerPerSecond * deltaTime/1000;
     	}
@@ -46,12 +53,29 @@ public class SmoothDrive extends Command {
 		calculatedPower = Math.min(calculatedPower, 1);
 		calculatedPower = Math.max(calculatedPower, -1);
 		
-		if( 0 < calculatedPower && calculatedPower < threshold && desiredPower > 0.4) {
-    		calculatedPower = 0.4;
+		if(calculatedPower > 0 && calculatedPower < thresholdPower && desiredPower > thresholdPower) {
+    		calculatedPower = thresholdPower;
     	}
+		
+		
+		//turning
+		if(desiredTurn > lastTurn) {
+    		calculatedTurn = lastTurn + maxTurnPerSecond * deltaTime/1000;
+    	}
+    	else if (desiredTurn < lastTurn){
+    		calculatedTurn = lastTurn - maxTurnPerSecond * deltaTime/1000;
+    	} else {
+    		calculatedTurn = desiredTurn;
+    	}
+		calculatedTurn = Math.min(calculatedTurn, 1);
+		calculatedTurn = Math.max(calculatedTurn, -1);
+		
+		if(calculatedTurn > 0 && calculatedTurn < thresholdTurn && desiredTurn > thresholdTurn) {
+    		calculatedTurn = thresholdTurn;
+    	}
+		
     	
-    	
-    	Robot.driveTrain.driveTime(-calculatedPower, -Robot.oi.getLeftXboxX());
+    	Robot.driveTrain.driveTime(-calculatedPower, -calculatedTurn);
     	
     	lastPower = calculatedPower;
     	
