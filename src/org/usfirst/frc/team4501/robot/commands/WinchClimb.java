@@ -2,18 +2,18 @@ package org.usfirst.frc.team4501.robot.commands;
 
 import org.usfirst.frc.team4501.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.TimedCommand;
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class DriveAutoTimed extends TimedCommand {
+public class WinchClimb extends Command {
+	private final double FAST_WINCH_SPEED = 1;
 
-    public DriveAutoTimed(double timeout) {
-        super(timeout);
+    public WinchClimb() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires(Robot.driveTrain);
+    	requires(Robot.winch);
     }
 
     // Called just before this Command runs the first time
@@ -22,12 +22,16 @@ public class DriveAutoTimed extends TimedCommand {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.driveTime(0.85, 0);
+    	Robot.winch.setWinchSpeed(FAST_WINCH_SPEED);
     }
 
-    // Called once after timeout
+    // Make this return true when this Command no longer needs to run execute()
+    protected boolean isFinished() {
+        return false;
+    }
+
+    // Called once after isFinished returns true
     protected void end() {
-    	Robot.driveTrain.driveTime(0, 0);
     }
 
     // Called when another command which requires one or more of the same

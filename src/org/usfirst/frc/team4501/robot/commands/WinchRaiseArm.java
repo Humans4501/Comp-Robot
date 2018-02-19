@@ -5,32 +5,36 @@ import org.usfirst.frc.team4501.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * This command will run the winch until the limit switch is triggered.
  */
-public class WinchSlow extends Command {
+public class WinchRaiseArm extends Command {
+	private boolean done;
 
-    public WinchSlow() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+    public WinchRaiseArm() {
     	requires(Robot.winch);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	done = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.winch.Winch(0.75);
+    	while (!done) {
+    		Robot.winch.setWinchSpeed(0.5);
+    		done = Robot.winch.isLimitSwitchSet();
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	return done;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.winch.setWinchSpeed(0);
     }
 
     // Called when another command which requires one or more of the same

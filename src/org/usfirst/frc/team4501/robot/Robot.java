@@ -38,8 +38,6 @@ import org.usfirst.frc.team4501.robot.subsystems.Winch;
  */
 public class Robot extends TimedRobot {
 	public static Robot instance;
-//	RobotDrive myDrive = new RobotDrive(RobotMap.TALON_1, RobotMap.TALON_2);
-
 	
 	NetworkTable table;
 	

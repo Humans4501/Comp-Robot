@@ -9,8 +9,9 @@ import org.usfirst.frc.team4501.robot.commands.MyNameIsBoxy2;
 import org.usfirst.frc.team4501.robot.commands.ShiftHigh;
 import org.usfirst.frc.team4501.robot.commands.ShiftLow;
 import org.usfirst.frc.team4501.robot.commands.StopEverything;
-import org.usfirst.frc.team4501.robot.commands.WinchFast;
-import org.usfirst.frc.team4501.robot.commands.WinchSlow;
+import org.usfirst.frc.team4501.robot.commands.WinchClimb;
+import org.usfirst.frc.team4501.robot.commands.WinchRaiseArm;
+import org.usfirst.frc.team4501.robot.commands.WinchStop;
 
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -67,7 +68,7 @@ public class OI {
 	Button ejection = new JoystickButton(controller2, controller2.BUTTON_START);
 	
 	//WINCH 
-	Button winchSlow = new JoystickButton(controller, controller.BUTTON_X);
+	Button winchRaiseArm = new JoystickButton(controller, controller.BUTTON_X);
 	Button winchFast = new JoystickButton(controller, controller.BUTTON_Y);
 
 	public OI() {
@@ -86,8 +87,9 @@ public class OI {
 		ejection.whileHeld(new Eject());
 		ejection.whenReleased(new StopEverything());
 		
-		winchSlow.whileHeld(new WinchSlow());
-		winchFast.whileHeld(new WinchFast());
+		winchRaiseArm.whenPressed(new WinchRaiseArm());
+		winchFast.whileHeld(new WinchClimb());
+		winchFast.whenReleased(new WinchStop());
 	}
 
 	public double getTriggers() {
