@@ -67,8 +67,8 @@ public class OI {
 	Button ejection = new JoystickButton(controller2, controller2.BUTTON_START);
 	
 	//WINCH 
-	Button winchSlow = new JoystickButton(controller2, controller2.BUTTON_X);
-	Button winchFast = new JoystickButton(controller2, controller2.BUTTON_Y);
+	Button winchSlow = new JoystickButton(controller, controller.BUTTON_X);
+	Button winchFast = new JoystickButton(controller, controller.BUTTON_Y);
 
 	public OI() {
 		shiftHigh.whenPressed(new ShiftHigh());

@@ -27,6 +27,7 @@ public class Intake extends Subsystem {
 	Talon italon1, italon2;
 	
 	DoubleSolenoid intakeSol;
+	DoubleSolenoid thirdWheel;
 	
 	RobotDrive intakeSystem;
 
@@ -40,6 +41,7 @@ public class Intake extends Subsystem {
 		intakeSystem = new RobotDrive(italon1, italon2);
 		
 		intakeSol = new DoubleSolenoid(RobotMap.INTAKESOL1 , RobotMap.INTAKESOL2);
+		thirdWheel = new DoubleSolenoid(RobotMap.THIRDWHEEL1 , RobotMap.THIRDWHEEL2);
 	}
 
 	
@@ -54,11 +56,13 @@ public class Intake extends Subsystem {
 	}
 	
 	public void intakeOpen() {
-		intakeSol.set(DoubleSolenoid.Value.kForward);
+		intakeSol.set(DoubleSolenoid.Value.kReverse);
+		thirdWheel.set(DoubleSolenoid.Value.kReverse);
 	}
 		 
 	public void intakeClose() {
-		intakeSol.set(DoubleSolenoid.Value.kReverse);
+		intakeSol.set(DoubleSolenoid.Value.kForward);
+		thirdWheel.set(DoubleSolenoid.Value.kForward);
 	}
 	
     public void initDefaultCommand() {

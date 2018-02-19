@@ -49,4 +49,7 @@ public class RobotMap {
     
     public static final int INTAKESOL1 = 0;
     public static final int INTAKESOL2 = 7;
+    
+    public static final int THIRDWHEEL1 = 2;
+    public static final int THIRDWHEEL2 = 5;
 }
