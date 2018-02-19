@@ -27,6 +27,7 @@ import org.usfirst.frc.team4501.robot.subsystems.Conveyor;
 import org.usfirst.frc.team4501.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team4501.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team4501.robot.subsystems.Shooter;
+import org.usfirst.frc.team4501.robot.subsystems.Winch;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -48,6 +49,7 @@ public class Robot extends TimedRobot {
 	public static final Intake intake = new Intake();
 	public static final Shooter shooter = new Shooter();
 	public static final Conveyor conveyor = new Conveyor();
+	public static final Winch winch = new Winch();
 
 	public static OI oi;
 

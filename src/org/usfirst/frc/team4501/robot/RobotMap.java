@@ -40,7 +40,16 @@ public class RobotMap {
 	public static final int SHOOTERTALON_1 = 6;
 	public static final int SHOOTERTALON_2 = 7;
 	
+	//winch
+	public static final int WINCHTALON = 8;
+	
 	//SOLENOID
-    public static final int SOLENOID = 0;
-    public static final int INTAKESOL = 1;
+    public static final int DRIVESOL1 = 1;
+    public static final int DRIVESOL2 = 6;
+    
+    public static final int INTAKESOL1 = 0;
+    public static final int INTAKESOL2 = 7;
+    
+    public static final int THIRDWHEEL1 = 2;
+    public static final int THIRDWHEEL2 = 5;
 }

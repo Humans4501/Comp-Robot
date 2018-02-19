@@ -3,6 +3,7 @@ package org.usfirst.frc.team4501.robot.subsystems;
 import org.usfirst.frc.team4501.robot.Robot;
 import org.usfirst.frc.team4501.robot.RobotMap;
 import org.usfirst.frc.team4501.robot.commands.Drive;
+import org.usfirst.frc.team4501.robot.commands.SmoothDrive;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -39,7 +40,7 @@ public class Drivetrain extends Subsystem {
 	Talon talon1, talon2, talon3, talon4;
 	RobotDrive drive;
 
-	Solenoid sol;
+	DoubleSolenoid driveSol;
 
 	double gyroData;
 
@@ -70,7 +71,7 @@ public class Drivetrain extends Subsystem {
 		talon1 = new Talon(RobotMap.TALON_1);
 		talon2 = new Talon(RobotMap.TALON_2);
 
-		sol = new Solenoid(RobotMap.SOLENOID);
+		driveSol = new DoubleSolenoid(RobotMap.DRIVESOL1, RobotMap.DRIVESOL2);
 
 		drive = new RobotDrive(talon1, talon2);
 
@@ -115,16 +116,16 @@ public class Drivetrain extends Subsystem {
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
-		setDefaultCommand(new Drive());
+		setDefaultCommand(new SmoothDrive());
 
 	}
 
 	public void shiftHigh() {
-		sol.set(true);
+		driveSol.set(DoubleSolenoid.Value.kForward);
 	}
 
 	public void shiftLow() {
-		sol.set(false);
+		driveSol.set(DoubleSolenoid.Value.kReverse);
 	}
 
 	public void resetGyro() {

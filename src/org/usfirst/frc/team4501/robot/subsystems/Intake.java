@@ -6,6 +6,7 @@ import org.usfirst.frc.team4501.robot.RobotMap;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -25,7 +26,8 @@ public class Intake extends Subsystem {
 	
 	Talon italon1, italon2;
 	
-	Solenoid intakeSol;
+	DoubleSolenoid intakeSol;
+	DoubleSolenoid thirdWheel;
 	
 	RobotDrive intakeSystem;
 
@@ -38,7 +40,8 @@ public class Intake extends Subsystem {
 		
 		intakeSystem = new RobotDrive(italon1, italon2);
 		
-		intakeSol = new Solenoid(RobotMap.INTAKESOL);
+		intakeSol = new DoubleSolenoid(RobotMap.INTAKESOL1 , RobotMap.INTAKESOL2);
+		thirdWheel = new DoubleSolenoid(RobotMap.THIRDWHEEL1 , RobotMap.THIRDWHEEL2);
 	}
 
 	
@@ -53,11 +56,13 @@ public class Intake extends Subsystem {
 	}
 	
 	public void intakeOpen() {
-		intakeSol.set(true);
+		intakeSol.set(DoubleSolenoid.Value.kReverse);
+		thirdWheel.set(DoubleSolenoid.Value.kReverse);
 	}
 		 
 	public void intakeClose() {
-		intakeSol.set(false);
+		intakeSol.set(DoubleSolenoid.Value.kForward);
+		thirdWheel.set(DoubleSolenoid.Value.kForward);
 	}
 	
     public void initDefaultCommand() {
