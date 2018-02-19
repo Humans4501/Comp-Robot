@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class SmoothDrive extends Command {
 
 	public final double maxPowerPerSecond = 1;
+	public final double threshold = 0.4;
 	
 	public double lastPower;
 	public long lastTime;
@@ -35,6 +36,7 @@ public class SmoothDrive extends Command {
     	
     	double calculatedPower;
     	
+    	
     	if(desiredPower > lastPower) {
     		calculatedPower = lastPower + maxPowerPerSecond * deltaTime/1000;
     	}
@@ -42,8 +44,11 @@ public class SmoothDrive extends Command {
     		calculatedPower = desiredPower;
     	}
 		calculatedPower = Math.min(calculatedPower, 1);
-		
 		calculatedPower = Math.max(calculatedPower, -1);
+		
+		if( 0 < calculatedPower && calculatedPower < threshold && desiredPower > 0.4) {
+    		calculatedPower = 0.4;
+    	}
     	
     	
     	Robot.driveTrain.driveTime(-calculatedPower, -Robot.oi.getLeftXboxX());
