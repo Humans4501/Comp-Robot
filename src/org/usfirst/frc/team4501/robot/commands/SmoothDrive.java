@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj.command.Command;
 public class SmoothDrive extends Command {
 
 	public final double maxPowerPerSecond = 1.5;
-	public final double maxTurnPerSecond = 1;
+	public final double maxTurnPerSecond = 2;
 	
-	public final double thresholdTurn = 0.4;
+	public final double thresholdTurn = 0.6;
 	public final double thresholdPower = 0.6;
 	
 	public double lastTurn;
@@ -67,11 +67,14 @@ public class SmoothDrive extends Command {
     	} else {
     		calculatedTurn = desiredTurn;
     	}
+		
 		calculatedTurn = Math.min(calculatedTurn, 1);
 		calculatedTurn = Math.max(calculatedTurn, -1);
 		
 		if(calculatedTurn > 0 && calculatedTurn < thresholdTurn && desiredTurn > thresholdTurn) {
     		calculatedTurn = thresholdTurn;
+    	} else if (calculatedTurn < 0 && calculatedTurn > -thresholdTurn && desiredTurn < -thresholdTurn) {
+    		calculatedTurn = -thresholdTurn;
     	}
 		
     	
@@ -79,7 +82,9 @@ public class SmoothDrive extends Command {
     	
     	lastPower = calculatedPower;
     	
-    	System.out.printf("desiredPower = %.2g calculatedPower = %.2g\n", desiredPower , calculatedPower);
+    	lastTurn = calculatedTurn;
+    	
+    	System.out.printf("desiredPower = %.2g calculatedPower = %.2g desiredTurn = %.2g calculatedTurn = %.2g\n", desiredPower , calculatedPower , desiredTurn , calculatedTurn);
     }
 
     // Make this return true when this Command no longer needs to run execute()
