@@ -25,11 +25,11 @@ public class RightToLeftSide extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	addSequential(new DriveAutoTimed(2));
-    	addSequential(new TurnTo2());
+    	addSequential(new GyroTurn(-45));
     	addSequential(new DriveAutoTimed(10));
-    	addSequential(new TurnTo());
+    	addSequential(new GyroTurn(45));
     	addSequential(new DriveAutoTimed(4));
-    	addSequential(new TurnTo3());
+    	addSequential(new GyroTurn(90));
     	addSequential(new RunEverything());
     }
 }

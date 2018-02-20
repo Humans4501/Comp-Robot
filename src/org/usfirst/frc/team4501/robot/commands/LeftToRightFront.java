@@ -25,9 +25,9 @@ public class LeftToRightFront extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	addSequential(new DriveAutoTimed(2));
-    	addSequential(new TurnTo());
+    	addSequential(new GyroTurn(45));
     	addSequential(new DriveAutoTimed(8));
-    	addSequential(new TurnTo2());
+    	addSequential(new GyroTurn(-45));
     	addSequential(new RunEverything());
     }
 }

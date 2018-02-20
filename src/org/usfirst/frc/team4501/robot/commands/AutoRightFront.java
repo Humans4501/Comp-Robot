@@ -26,9 +26,9 @@ public class AutoRightFront extends CommandGroup {
         // arm.
     	
     	addSequential(new DriveAutoTimed(1));
-    	addSequential(new TurnTo2());
+    	addSequential(new GyroTurn(-45));
     	addSequential(new DriveAutoTimed(2));
-    	addSequential(new TurnTo());
+    	addSequential(new GyroTurn(45));
     	addSequential(new RunEverything());
     }
 }

@@ -25,7 +25,7 @@ public class AutoRightSide extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	addSequential(new DriveAutoTimed(5));
-    	addSequential(new TurnTo4());
+    	addSequential(new GyroTurn(90));
     	addSequential(new RunEverything());
     }
 }
