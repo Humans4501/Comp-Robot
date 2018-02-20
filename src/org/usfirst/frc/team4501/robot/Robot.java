@@ -7,7 +7,9 @@
 
 package org.usfirst.frc.team4501.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -37,6 +39,8 @@ import org.usfirst.frc.team4501.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team4501.robot.subsystems.Shooter;
 import org.usfirst.frc.team4501.robot.subsystems.Winch;
 
+import com.kauailabs.navx.frc.AHRS;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -46,9 +50,9 @@ import org.usfirst.frc.team4501.robot.subsystems.Winch;
  */
 public class Robot extends TimedRobot {
 	public static Robot instance;
-	
+
 	NetworkTable table;
-	
+
 	public static final ExampleSubsystem kExampleSubsystem = new ExampleSubsystem();
 	public static final Drivetrain driveTrain = new Drivetrain();
 
@@ -58,6 +62,7 @@ public class Robot extends TimedRobot {
 	public static final Winch winch = new Winch();
 
 	public static OI oi;
+	public static AHRS ahrs;
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -71,6 +76,21 @@ public class Robot extends TimedRobot {
 		instance = this;
 		oi = new OI();
 
+		try {
+			/***********************************************************************
+			 * navX-MXP: - Communication via RoboRIO MXP (SPI, I2C, TTL UART) and USB. - See
+			 * http://navx-mxp.kauailabs.com/guidance/selecting-an-interface.
+			 * 
+			 * navX-Micro: - Communication via I2C (RoboRIO MXP or Onboard) and USB. - See
+			 * http://navx-micro.kauailabs.com/guidance/selecting-an-interface.
+			 * 
+			 * Multiple navX-model devices on a single robot are supported.
+			 ************************************************************************/
+			ahrs = new AHRS(SPI.Port.kMXP);
+		} catch (RuntimeException ex) {
+			DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+		}
+
 		m_chooser.addDefault("Center Right Front", new AutoCenterRightGroupFront());
 		m_chooser.addDefault("Center Right Side", new AutoCenterRightGroupSide());
 		m_chooser.addDefault("Center Left Front", new AutoCenterLeftGroupFront());
@@ -82,23 +102,22 @@ public class Robot extends TimedRobot {
 		m_chooser.addDefault("Left to Right Front", new LeftToRightFront());
 		m_chooser.addDefault("Left to Right Side", new LeftToRightSide());
 		m_chooser.addDefault("Right to Left Front", new RightToLeftFront());
-		m_chooser.addDefault("Right to Left Side", new  RightToLeftSide());
-		
+		m_chooser.addDefault("Right to Left Side", new RightToLeftSide());
 
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 		SmartDashboard.putNumber("CurrXACCL:", 0);
 		SmartDashboard.putNumber("CurrYACCL:", 0);
-		
+
 		NetworkTable.setIPAddress("10.95.1.55");
 		table = NetworkTable.getTable("limelight");
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		
-//		m_chooser.addObject("Test Timed Auto", new DriveAutoTimed(1));
-//		m_chooser.addObject("Test VisionPID", new VisionPID());
-//		
-//		m_chooser.addObject("Center", new AutoCenterGroup());
-//		m_chooser.addObject("Left/Right", new AutoLeftorRightGroup());
+
+		// m_chooser.addObject("Test Timed Auto", new DriveAutoTimed(1));
+		// m_chooser.addObject("Test VisionPID", new VisionPID());
+		//
+		// m_chooser.addObject("Center", new AutoCenterGroup());
+		// m_chooser.addObject("Left/Right", new AutoLeftorRightGroup());
 	}
 
 	/**
@@ -151,17 +170,17 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		
-		//L I M E L I G H T
-//				double tx = table.getNumber("tx", 0);
-//				double ty = table.getNumber("ty", 0);
-//				double targetArea = table.getNumber("ta", 0);
-//				double targetSkew = table.getNumber("ts", 0);
-//				double targetView = table.getNumber("tv", 0);
-//
-//				SmartDashboard.putNumber("targetView", targetView);
-//				SmartDashboard.putNumber("tx", tx);
-//				SmartDashboard.putNumber("ty", ty);
+
+		// L I M E L I G H T
+		// double tx = table.getNumber("tx", 0);
+		// double ty = table.getNumber("ty", 0);
+		// double targetArea = table.getNumber("ta", 0);
+		// double targetSkew = table.getNumber("ts", 0);
+		// double targetView = table.getNumber("tv", 0);
+		//
+		// SmartDashboard.putNumber("targetView", targetView);
+		// SmartDashboard.putNumber("tx", tx);
+		// SmartDashboard.putNumber("ty", ty);
 	}
 
 	@Override
@@ -191,9 +210,4 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 	}
-	
-//	public void setArcadeDrive(double move, double turn) {
-//		//TO DO: CHANGE 0 BACK TO TURN SO IT MOVES AND TURNS AT THE SAME TIME
-//		myDrive.arcadeDrive(move, turn);
-//	}
 }
