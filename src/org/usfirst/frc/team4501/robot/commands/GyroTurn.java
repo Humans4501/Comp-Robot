@@ -18,11 +18,12 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class GyroTurn extends Command implements PIDOutput {
 	
 	double angle;
-	double kP = 1;
+	double kP = 0.03;
 	double kI = 0;
 	double kD = 0;
 	double kF = 0;
 	double kToleranceDegrees = 2;
+	double kMaxRange = 0.5;
 	
 	AHRS ahrs;
 
@@ -57,10 +58,12 @@ public class GyroTurn extends Command implements PIDOutput {
 		 turnController = new PIDController(kP, kI, kD, kF, ahrs, (PIDOutput) this);
 		
 		 turnController.setInputRange(-180.0f, 180.0f);
-		 turnController.setOutputRange(-1.0, 1.0);
+		 turnController.setOutputRange(-kMaxRange, kMaxRange);
   		turnController.setAbsoluteTolerance(kToleranceDegrees);
 		 turnController.setContinuous(true);
 		 turnController.setSetpoint(angle);
+		 ahrs.reset();
+		 turnController.enable();
 		/* Add the PID Controller to the Test-mode dashboard, allowing manual */
 		/* tuning of the Turn Controller's P, I and D coefficients. */
 		/* Typically, only the P value needs to be modified. */
@@ -89,7 +92,11 @@ public class GyroTurn extends Command implements PIDOutput {
 	@Override
 	public void pidWrite(double output) {
 		// TODO Auto-generated method stub
+		System.out.printf("Angle = %.2g pidWrite=%.2g\n", ahrs.getAngle(), output);
+		
 		Robot.driveTrain.driveTime(0, output);
 		
 	}
+	
+	
 }
