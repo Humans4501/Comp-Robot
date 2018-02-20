@@ -137,7 +137,7 @@ public class Drivetrain extends Subsystem {
 		return gyroData;
 	}
 
-	public void turnTo() {
+	public void turnTo(double angle) {
 		ahrs.reset();
 		drive.setSafetyEnabled(true);
 
@@ -145,7 +145,7 @@ public class Drivetrain extends Subsystem {
 
 		SmartDashboard.putNumber("gyro angle", ahrs.getAngle());
 
-		turnController.setSetpoint(90.0);
+		turnController.setSetpoint(angle);
 		rotateToAngle = true;
 
 		double currentRotationRate;

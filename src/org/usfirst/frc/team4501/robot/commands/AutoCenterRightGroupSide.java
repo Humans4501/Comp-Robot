@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutoCenterGroup extends CommandGroup {
+public class AutoCenterRightGroupSide extends CommandGroup {
 
-    public AutoCenterGroup() {
+    public AutoCenterRightGroupSide() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -24,9 +24,12 @@ public class AutoCenterGroup extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new DriveAutoTimed(2));
+    	addSequential(new DriveAutoTimed(3));
     	addSequential(new TurnTo());
-    	addSequential(new VisionPID());
-    	addSequential(new IntakeAutoTimed(3));
+    	addSequential(new DriveAutoTimed(4));
+    	addSequential(new TurnTo2());
+    	addSequential(new DriveAutoTimed(3));
+    	addSequential(new TurnTo4());
+    	addSequential(new RunEverything());
     }
 }

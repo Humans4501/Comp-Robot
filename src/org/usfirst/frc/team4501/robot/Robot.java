@@ -16,11 +16,19 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team4501.robot.commands.AutoCenterGroup;
-import org.usfirst.frc.team4501.robot.commands.AutoLeftorRightGroup;
-import org.usfirst.frc.team4501.robot.commands.DriveAutoTimed;
-import org.usfirst.frc.team4501.robot.commands.DriveUntilCollision;
+import org.usfirst.frc.team4501.robot.commands.AutoCenterLeftGroupFront;
+import org.usfirst.frc.team4501.robot.commands.AutoCenterLeftGroupSide;
+import org.usfirst.frc.team4501.robot.commands.AutoCenterRightGroupFront;
+import org.usfirst.frc.team4501.robot.commands.AutoCenterRightGroupSide;
+import org.usfirst.frc.team4501.robot.commands.AutoLeftFront;
+import org.usfirst.frc.team4501.robot.commands.AutoLeftSide;
+import org.usfirst.frc.team4501.robot.commands.AutoRightFront;
+import org.usfirst.frc.team4501.robot.commands.AutoRightSide;
 import org.usfirst.frc.team4501.robot.commands.ExampleCommand;
+import org.usfirst.frc.team4501.robot.commands.LeftToRightFront;
+import org.usfirst.frc.team4501.robot.commands.LeftToRightSide;
+import org.usfirst.frc.team4501.robot.commands.RightToLeftFront;
+import org.usfirst.frc.team4501.robot.commands.RightToLeftSide;
 import org.usfirst.frc.team4501.robot.commands.VisionPID;
 import org.usfirst.frc.team4501.robot.subsystems.Intake;
 import org.usfirst.frc.team4501.robot.subsystems.Conveyor;
@@ -62,8 +70,21 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		instance = this;
 		oi = new OI();
-		m_chooser.addDefault("Default Auto", new ExampleCommand());
-		m_chooser.addDefault("Testing Collision", new DriveUntilCollision());
+
+		m_chooser.addDefault("Center Right Front", new AutoCenterRightGroupFront());
+		m_chooser.addDefault("Center Right Side", new AutoCenterRightGroupSide());
+		m_chooser.addDefault("Center Left Front", new AutoCenterLeftGroupFront());
+		m_chooser.addDefault("Center Left Side", new AutoCenterLeftGroupSide());
+		m_chooser.addDefault("Right Front", new AutoRightFront());
+		m_chooser.addDefault("Right Side", new AutoRightSide());
+		m_chooser.addDefault("Left Front", new AutoLeftFront());
+		m_chooser.addDefault("Left Side", new AutoLeftSide());
+		m_chooser.addDefault("Left to Right Front", new LeftToRightFront());
+		m_chooser.addDefault("Left to Right Side", new LeftToRightSide());
+		m_chooser.addDefault("Right to Left Front", new RightToLeftFront());
+		m_chooser.addDefault("Right to Left Side", new  RightToLeftSide());
+		
+
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 		SmartDashboard.putNumber("CurrXACCL:", 0);
@@ -72,7 +93,6 @@ public class Robot extends TimedRobot {
 		NetworkTable.setIPAddress("10.95.1.55");
 		table = NetworkTable.getTable("limelight");
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
 		
 //		m_chooser.addObject("Test Timed Auto", new DriveAutoTimed(1));
 //		m_chooser.addObject("Test VisionPID", new VisionPID());
