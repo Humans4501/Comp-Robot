@@ -13,12 +13,12 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class GyroTurn extends Command implements PIDOutput {
 
 	double angle;
-	double kP = 0.03;
-	double kI = 0;
+	double kP = 0.01;
+	double kI = 0.035;
 	double kD = 0;
 	double kF = 0;
 	double kToleranceDegrees = 2;
-	double kMaxRange = 0.5;
+	double kMaxRange = 0.6;
 	boolean finished = false;
 
 	PIDController turnController;
@@ -53,9 +53,9 @@ public class GyroTurn extends Command implements PIDOutput {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		//Robot.driveTrain.driveTime(0, rotate);
-		System.out.printf("Robot.ahrs.isCalibrating=%s counter=%d\n", Robot.ahrs.isCalibrating(), counter++);
-
+		System.out.printf("angle=%7.2g rotate=%7.2g\n", Robot.ahrs.getAngle(), rotate);
+		Robot.driveTrain.driveTime(0, rotate);
+		
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -63,6 +63,8 @@ public class GyroTurn extends Command implements PIDOutput {
 		double err = Math.abs(Robot.ahrs.getAngle() - angle );
 		if(err <= kToleranceDegrees) {
 			finished = true;
+			
+			System.out.println("IS FINISHED");
 		}
 		return finished;
 	}
@@ -79,7 +81,6 @@ public class GyroTurn extends Command implements PIDOutput {
 
 	@Override
 	public void pidWrite(double output) {
-		System.out.printf("angle=%.2g pidWrite=%.2g\n", Robot.ahrs.getAngle(), output);
 		rotate = output;
 	}
 }
