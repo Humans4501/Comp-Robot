@@ -26,9 +26,9 @@ public class RightToLeftSide extends CommandGroup {
         // arm.
     	addSequential(new DriveAutoTimed(2));
     	addSequential(new GyroTurn(-45));
-    	addSequential(new DriveAutoTimed(10));
-    	addSequential(new GyroTurn(45));
     	addSequential(new DriveAutoTimed(4));
+    	addSequential(new GyroTurn(45));
+    	addSequential(new DriveAutoTimed(2));
     	addSequential(new GyroTurn(90));
     	addSequential(new RunEverything());
     }

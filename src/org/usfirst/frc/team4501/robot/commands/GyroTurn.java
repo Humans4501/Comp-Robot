@@ -19,6 +19,7 @@ public class GyroTurn extends Command implements PIDOutput {
 	double kF = 0;
 	double kToleranceDegrees = 2;
 	double kMaxRange = 0.5;
+	boolean finished = false;
 
 	PIDController turnController;
 	double rotate;
@@ -40,26 +41,30 @@ public class GyroTurn extends Command implements PIDOutput {
 		turnController.setContinuous(true);
 		turnController.setSetpoint(angle);
 		turnController.enable();
+		finished = false;
 		
 		/* Add the PID Controller to the Test-mode dashboard, allowing manual */
 		/* tuning of the Turn Controller's P, I and D coefficients. */
 		/* Typically, only the P value needs to be modified. */
 		LiveWindow.addActuator("Gyro Turn", "RotateController", turnController);
-		
-		// Wait until the gyro is finished calibrating.
-		while (Robot.ahrs.isCalibrating()) {
-			System.out.println("Robot.ahrs.isCalibrating");
-		}
 	}
+	
+	int counter = 0;
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.driveTrain.driveTime(0, rotate);
+		//Robot.driveTrain.driveTime(0, rotate);
+		System.out.printf("Robot.ahrs.isCalibrating=%s counter=%d\n", Robot.ahrs.isCalibrating(), counter++);
+
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		double err = Math.abs(Robot.ahrs.getAngle() - angle );
+		if(err <= kToleranceDegrees) {
+			finished = true;
+		}
+		return finished;
 	}
 
 	// Called once after isFinished returns true
