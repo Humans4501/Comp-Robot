@@ -22,20 +22,20 @@ public class WinchRaiseArm extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	while (!done) {
-    		Robot.winch.setWinchSpeed(0.5);
+    	//	Robot.winch.setWinchSpeed(0.5);
     		done = Robot.winch.isLimitSwitchSet();
     	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	 return done = true;
+    	 return done;
     }
 
     // Called once after isFinished returns true
     protected void end() {
     
-    	Robot.winch.setWinchSpeed(0);
+//    	Robot.winch.setWinchSpeed(0);
     }
 
     // Called when another command which requires one or more of the same

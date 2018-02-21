@@ -69,7 +69,7 @@ public class OI {
 	
 	//WINCH 
 	Button winchRaiseArm = new JoystickButton(controller, controller.BUTTON_X);
-	Button winchFast = new JoystickButton(controller, controller.BUTTON_Y);
+	Button winchClimb = new JoystickButton(controller, controller.BUTTON_Y);
 
 	public OI() {
 		shiftHigh.whenPressed(new ShiftHigh());
@@ -88,8 +88,8 @@ public class OI {
 		ejection.whenReleased(new StopEverything());
 		
 		winchRaiseArm.whenPressed(new WinchRaiseArm());
-		winchFast.whileHeld(new WinchClimb());
-		winchFast.whenReleased(new WinchStop());
+		winchClimb.whileHeld(new WinchClimb());
+		winchClimb.whenReleased(new WinchStop());
 	}
 
 	public double getTriggers() {
