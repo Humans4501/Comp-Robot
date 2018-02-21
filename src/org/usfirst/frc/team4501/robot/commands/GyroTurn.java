@@ -53,9 +53,8 @@ public class GyroTurn extends Command implements PIDOutput {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		System.out.printf("angle=%7.2g rotate=%7.2g\n", Robot.ahrs.getAngle(), rotate);
 		Robot.driveTrain.driveTime(0, rotate);
-		
+		System.out.printf("execute: angle=%.2f rotate=%.2f\n", Robot.ahrs.getAngle(), rotate);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -82,5 +81,6 @@ public class GyroTurn extends Command implements PIDOutput {
 	@Override
 	public void pidWrite(double output) {
 		rotate = output;
+		System.out.printf("pidWrite: angle=%.2f rotate=%.2f\n", Robot.ahrs.getAngle(), rotate);
 	}
 }
