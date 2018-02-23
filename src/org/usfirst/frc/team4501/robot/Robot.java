@@ -7,17 +7,6 @@
 
 package org.usfirst.frc.team4501.robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import org.usfirst.frc.team4501.robot.commands.AutoCenterLeftGroupFront;
 import org.usfirst.frc.team4501.robot.commands.AutoCenterLeftGroupSide;
 import org.usfirst.frc.team4501.robot.commands.AutoCenterRightGroupFront;
@@ -26,21 +15,27 @@ import org.usfirst.frc.team4501.robot.commands.AutoLeftFront;
 import org.usfirst.frc.team4501.robot.commands.AutoLeftSide;
 import org.usfirst.frc.team4501.robot.commands.AutoRightFront;
 import org.usfirst.frc.team4501.robot.commands.AutoRightSide;
-import org.usfirst.frc.team4501.robot.commands.ExampleCommand;
 import org.usfirst.frc.team4501.robot.commands.LeftToRightFront;
 import org.usfirst.frc.team4501.robot.commands.LeftToRightSide;
 import org.usfirst.frc.team4501.robot.commands.RightToLeftFront;
 import org.usfirst.frc.team4501.robot.commands.RightToLeftSide;
-import org.usfirst.frc.team4501.robot.commands.TIMERTEST;
-import org.usfirst.frc.team4501.robot.commands.VisionPID;
-import org.usfirst.frc.team4501.robot.subsystems.Intake;
 import org.usfirst.frc.team4501.robot.subsystems.Conveyor;
 import org.usfirst.frc.team4501.robot.subsystems.Drivetrain;
-import org.usfirst.frc.team4501.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team4501.robot.subsystems.GyroTurnSubsystem;
+import org.usfirst.frc.team4501.robot.subsystems.Intake;
 import org.usfirst.frc.team4501.robot.subsystems.Shooter;
 import org.usfirst.frc.team4501.robot.subsystems.Winch;
 
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -54,8 +49,8 @@ public class Robot extends TimedRobot {
 
 	NetworkTable table;
 
-	public static final ExampleSubsystem kExampleSubsystem = new ExampleSubsystem();
 	public static final Drivetrain driveTrain = new Drivetrain();
+	public static final GyroTurnSubsystem gyroTurn = new GyroTurnSubsystem(); 
 
 	public static final Intake intake = new Intake();
 	public static final Shooter shooter = new Shooter();
@@ -88,6 +83,15 @@ public class Robot extends TimedRobot {
 			 * Multiple navX-model devices on a single robot are supported.
 			 ************************************************************************/
 			ahrs = new AHRS(SPI.Port.kMXP);
+
+			SmartDashboard.putNumber("NAVX_Yaw", ahrs.getYaw());
+			SmartDashboard.putBoolean("NAVX_IsCalibrating", ahrs.isCalibrating());
+			SmartDashboard.putBoolean("NAVX_IsRotating", ahrs.isRotating());
+			SmartDashboard.putNumber("NAVX_SensorTimestamp", ahrs.getLastSensorTimestamp());
+			SmartDashboard.putNumber("NAVX_RequestedUpdateRate", ahrs.getRequestedUpdateRate());
+			SmartDashboard.putNumber("NAVX_ActualUpdateRate", ahrs.getActualUpdateRate());
+			SmartDashboard.putString("NAVX_FirmwareVersion", ahrs.getFirmwareVersion());
+
 		} catch (RuntimeException ex) {
 			DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
 		}
@@ -104,7 +108,6 @@ public class Robot extends TimedRobot {
 		m_chooser.addDefault("Left to Right Side", new LeftToRightSide());
 		m_chooser.addDefault("Right to Left Front", new RightToLeftFront());
 		m_chooser.addDefault("Right to Left Side", new RightToLeftSide());
-		m_chooser.addDefault("TIMER TEST", new TIMERTEST());
 
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);

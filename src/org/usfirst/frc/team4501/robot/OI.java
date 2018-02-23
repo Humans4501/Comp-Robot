@@ -87,7 +87,9 @@ public class OI {
 		ejection.whileHeld(new Eject());
 		ejection.whenReleased(new StopEverything());
 		
-		winchRaiseArm.whenPressed(new WinchRaiseArm());
+		winchRaiseArm.whileHeld(new WinchRaiseArm());
+		winchRaiseArm.whenReleased(new WinchStop());
+		
 		winchClimb.whileHeld(new WinchClimb());
 		winchClimb.whenReleased(new WinchStop());
 	}
