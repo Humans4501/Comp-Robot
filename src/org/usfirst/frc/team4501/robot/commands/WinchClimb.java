@@ -11,8 +11,6 @@ public class WinchClimb extends Command {
 	private final double FAST_WINCH_SPEED = 0.6;
 
     public WinchClimb() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	requires(Robot.winch);
     }
 
@@ -22,7 +20,7 @@ public class WinchClimb extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.winch.setWinchSpeed(FAST_WINCH_SPEED);
+    	Robot.winch.runWinchOverrideLimitSwitch(FAST_WINCH_SPEED);
     }
 
     // Make this return true when this Command no longer needs to run execute()

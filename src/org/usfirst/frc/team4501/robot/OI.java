@@ -88,10 +88,11 @@ public class OI {
 		ejection.whileHeld(new Eject());
 		ejection.whenReleased(new StopEverything());
 		
-		winchHoldtoRaise.whileHeld(new WinchHoldtoRaiseArm());
-		winchHoldtoRaise.whenReleased(new WinchStop());
-		winchFast.whileHeld(new WinchClimb());
-		winchFast.whenReleased(new WinchStop());
+		winchRaiseArm.whileHeld(new WinchRaiseArm());
+		winchRaiseArm.whenReleased(new WinchStop());
+		
+		winchClimb.whileHeld(new WinchClimb());
+		winchClimb.whenReleased(new WinchStop());
 	}
 
 	public double getTriggers() {
