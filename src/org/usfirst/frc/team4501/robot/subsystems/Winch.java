@@ -14,20 +14,17 @@ public class Winch extends Subsystem {
 	// here. Call these from Commands.
 
 	Talon talon1;
-	DigitalInput limitSwitch;
+	
 
 	public Winch() {
 		talon1 = new Talon(RobotMap.WINCHTALON);
-		limitSwitch = new DigitalInput(RobotMap.WINCH_LIMIT_SWITCH);
 	}
 
 	public void setWinchSpeed(double WinchSpeed) {
 		talon1.set(WinchSpeed);
 	}
 	
-	public boolean isLimitSwitchSet() {
-		return !limitSwitch.get();
-	}
+
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
