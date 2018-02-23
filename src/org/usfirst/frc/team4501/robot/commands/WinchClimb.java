@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class WinchClimb extends Command {
-	private final double FAST_WINCH_SPEED = 1;
+	private final double FAST_WINCH_SPEED = 0.6;
 
     public WinchClimb() {
         // Use requires() here to declare subsystem dependencies

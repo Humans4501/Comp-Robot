@@ -31,6 +31,7 @@ import org.usfirst.frc.team4501.robot.commands.LeftToRightFront;
 import org.usfirst.frc.team4501.robot.commands.LeftToRightSide;
 import org.usfirst.frc.team4501.robot.commands.RightToLeftFront;
 import org.usfirst.frc.team4501.robot.commands.RightToLeftSide;
+import org.usfirst.frc.team4501.robot.commands.TIMERTEST;
 import org.usfirst.frc.team4501.robot.commands.VisionPID;
 import org.usfirst.frc.team4501.robot.subsystems.Intake;
 import org.usfirst.frc.team4501.robot.subsystems.Conveyor;
@@ -103,6 +104,7 @@ public class Robot extends TimedRobot {
 		m_chooser.addDefault("Left to Right Side", new LeftToRightSide());
 		m_chooser.addDefault("Right to Left Front", new RightToLeftFront());
 		m_chooser.addDefault("Right to Left Side", new RightToLeftSide());
+		m_chooser.addDefault("TIMER TEST", new TIMERTEST());
 
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
