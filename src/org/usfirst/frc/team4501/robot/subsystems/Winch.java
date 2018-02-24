@@ -24,6 +24,7 @@ public class Winch extends Subsystem {
 		SmartDashboard.putBoolean("WinchLimitSwitch", isLimitSwitchSet);
 		SmartDashboard.putNumber("WinchSpeed", winchSpeed);
 	}
+
 	/**
 	 * Controls the winch speed with the safety of the limit switch.
 	 * 
