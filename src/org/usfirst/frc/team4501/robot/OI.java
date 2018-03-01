@@ -10,7 +10,7 @@ import org.usfirst.frc.team4501.robot.commands.ShiftHigh;
 import org.usfirst.frc.team4501.robot.commands.ShiftLow;
 import org.usfirst.frc.team4501.robot.commands.StopEverything;
 import org.usfirst.frc.team4501.robot.commands.WinchClimb;
-import org.usfirst.frc.team4501.robot.commands.WinchRaiseArm;
+import org.usfirst.frc.team4501.robot.commands.WinchHoldtoRaiseArm;
 import org.usfirst.frc.team4501.robot.commands.WinchStop;
 
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -66,10 +66,11 @@ public class OI {
 	Button partUno = new JoystickButton(controller2, controller2.BUTTON_A);
 	Button partDos = new JoystickButton(controller2, controller2.BUTTON_B);
 	Button ejection = new JoystickButton(controller2, controller2.BUTTON_START);
+	Button actionExpressUpShoot = new JoystickButton(controller2, controller2.BUMPER_R);
 	
 	//WINCH 
-	Button winchRaiseArm = new JoystickButton(controller, controller.BUTTON_X);
-	Button winchClimb = new JoystickButton(controller, controller.BUTTON_Y);
+	Button winchHoldtoRaise = new JoystickButton(controller, controller.BUTTON_X);
+	Button winchFast = new JoystickButton(controller, controller.BUTTON_Y);
 
 	public OI() {
 		shiftHigh.whenPressed(new ShiftHigh());
