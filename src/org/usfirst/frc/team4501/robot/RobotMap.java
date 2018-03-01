@@ -43,6 +43,9 @@ public class RobotMap {
 	//WINCH
 	public static final int WINCHTALON = 8;
 	
+	//WINCH LIMIT SWITCH (DIO port #)
+	public static final int WINCH_LIMIT_SWITCH = 4;
+	
 	//SOLENOID
     public static final int DRIVESOL1 = 1;
     public static final int DRIVESOL2 = 6;

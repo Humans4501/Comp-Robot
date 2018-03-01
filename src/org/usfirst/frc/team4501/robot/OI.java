@@ -2,7 +2,6 @@ package org.usfirst.frc.team4501.robot;
 
 import org.usfirst.frc.team4501.robot.commands.Eject;
 import org.usfirst.frc.team4501.robot.commands.IntakeClose;
-import org.usfirst.frc.team4501.robot.commands.IntakeInwards;
 import org.usfirst.frc.team4501.robot.commands.IntakeOpen;
 import org.usfirst.frc.team4501.robot.commands.MyNameIsBoxy;
 import org.usfirst.frc.team4501.robot.commands.MyNameIsBoxy2;
@@ -10,7 +9,7 @@ import org.usfirst.frc.team4501.robot.commands.ShiftHigh;
 import org.usfirst.frc.team4501.robot.commands.ShiftLow;
 import org.usfirst.frc.team4501.robot.commands.StopEverything;
 import org.usfirst.frc.team4501.robot.commands.WinchClimb;
-import org.usfirst.frc.team4501.robot.commands.WinchHoldtoRaiseArm;
+import org.usfirst.frc.team4501.robot.commands.WinchHoldToRaiseArm;
 import org.usfirst.frc.team4501.robot.commands.WinchStop;
 
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -69,8 +68,8 @@ public class OI {
 	Button actionExpressUpShoot = new JoystickButton(controller2, controller2.BUMPER_R);
 	
 	//WINCH 
-	Button winchHoldtoRaise = new JoystickButton(controller, controller.BUTTON_X);
-	Button winchFast = new JoystickButton(controller, controller.BUTTON_Y);
+	Button winchHoldToRaise = new JoystickButton(controller, controller.BUTTON_X);
+	Button winchClimb = new JoystickButton(controller, controller.BUTTON_Y);
 
 	public OI() {
 		shiftHigh.whenPressed(new ShiftHigh());
@@ -88,8 +87,8 @@ public class OI {
 		ejection.whileHeld(new Eject());
 		ejection.whenReleased(new StopEverything());
 		
-		winchRaiseArm.whileHeld(new WinchRaiseArm());
-		winchRaiseArm.whenReleased(new WinchStop());
+		winchHoldToRaise.whileHeld(new WinchHoldToRaiseArm());
+		winchHoldToRaise.whenReleased(new WinchStop());
 		
 		winchClimb.whileHeld(new WinchClimb());
 		winchClimb.whenReleased(new WinchStop());

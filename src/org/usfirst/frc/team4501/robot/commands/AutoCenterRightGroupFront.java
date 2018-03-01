@@ -25,7 +25,7 @@ public class AutoCenterRightGroupFront extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
 //    	addSequential(new DriveAutoTimed(1));
-    	addSequential(new GyroTurn(45));
+    	addSequential(new AnalogGyroTurn(45));
 //    	addSequential(new DriveAutoTimed(2));
 //    	addSequential(new GyroTurn(-45));
 //    	addSequential(new RunEverything());

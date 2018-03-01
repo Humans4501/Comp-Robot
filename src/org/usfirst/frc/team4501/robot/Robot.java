@@ -20,6 +20,7 @@ import org.usfirst.frc.team4501.robot.commands.LeftToRightSide;
 import org.usfirst.frc.team4501.robot.commands.RightToLeftFront;
 import org.usfirst.frc.team4501.robot.commands.RightToLeftSide;
 import org.usfirst.frc.team4501.robot.commands.SmoothDrive;
+import org.usfirst.frc.team4501.robot.subsystems.AnalogGyroTurnSubsystem;
 import org.usfirst.frc.team4501.robot.subsystems.Conveyor;
 import org.usfirst.frc.team4501.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team4501.robot.subsystems.GyroTurnSubsystem;
@@ -29,11 +30,13 @@ import org.usfirst.frc.team4501.robot.subsystems.Winch;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -52,6 +55,7 @@ public class Robot extends TimedRobot {
 
 	public static final Drivetrain driveTrain = new Drivetrain();
 	public static final GyroTurnSubsystem gyroTurn = new GyroTurnSubsystem(); 
+	public static final AnalogGyroTurnSubsystem analogGyroTurn = new AnalogGyroTurnSubsystem(); 
 
 	public static final Intake intake = new Intake();
 	public static final Shooter shooter = new Shooter();
@@ -60,6 +64,7 @@ public class Robot extends TimedRobot {
 
 	public static OI oi;
 	public static AHRS ahrs;
+	public static Gyro analogGyro;
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -72,6 +77,8 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		instance = this;
 		oi = new OI();
+		analogGyro = new ADXRS450_Gyro();
+		analogGyro.calibrate();
 
 		try {
 			/***********************************************************************
@@ -117,6 +124,30 @@ public class Robot extends TimedRobot {
 		// m_chooser.addObject("Left/Right", new AutoLeftorRightGroup());
 	}
 
+	@Override
+	public void robotPeriodic() {
+		super.robotPeriodic();
+		
+		// NAVX
+		SmartDashboard.putNumber("NAVX_Angle", ahrs.getAngle());
+		SmartDashboard.putBoolean("NAVX_IsCalibrating", ahrs.isCalibrating());
+		SmartDashboard.putBoolean("NAVX_IsRotating", ahrs.isRotating());
+		SmartDashboard.putNumber("NAVX_SensorTimestamp", ahrs.getLastSensorTimestamp());
+		
+		// AnalogGyro
+		SmartDashboard.putNumber("AnalogGyro_Angle", analogGyro.getAngle());
+
+		// L I M E L I G H T
+		// double tx = table.getNumber("tx", 0);
+		// double ty = table.getNumber("ty", 0);
+		// double targetArea = table.getNumber("ta", 0);
+		// double targetSkew = table.getNumber("ts", 0);
+		// double targetView = table.getNumber("tv", 0);
+		//
+		// SmartDashboard.putNumber("targetView", targetView);
+		// SmartDashboard.putNumber("tx", tx);
+	}
+
 	/**
 	 * This function is called once each time the robot enters Disabled mode. You
 	 * can use it to reset any subsystem information you want to clear when the
@@ -129,7 +160,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		UpdateNavXDashboard();
 	}
 
 	/**
@@ -158,17 +188,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		UpdateNavXDashboard();
-
-		// L I M E L I G H T
-		// double tx = table.getNumber("tx", 0);
-		// double ty = table.getNumber("ty", 0);
-		// double targetArea = table.getNumber("ta", 0);
-		// double targetSkew = table.getNumber("ts", 0);
-		// double targetView = table.getNumber("tv", 0);
-		//
-		// SmartDashboard.putNumber("targetView", targetView);
-		// SmartDashboard.putNumber("tx", tx);
 		// SmartDashboard.putNumber("ty", ty);
 	}
 
@@ -199,15 +218,5 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-	}
-	
-	/**
-	 * Update NAVX dashboard values.
-	 */
-	private void UpdateNavXDashboard() {
-		SmartDashboard.putNumber("NAVX_Angle", ahrs.getAngle());
-		SmartDashboard.putBoolean("NAVX_IsCalibrating", ahrs.isCalibrating());
-		SmartDashboard.putBoolean("NAVX_IsRotating", ahrs.isRotating());
-		SmartDashboard.putNumber("NAVX_SensorTimestamp", ahrs.getLastSensorTimestamp());
 	}
 }

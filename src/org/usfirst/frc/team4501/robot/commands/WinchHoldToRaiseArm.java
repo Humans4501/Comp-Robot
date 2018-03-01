@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class WinchRaiseArm extends Command {
+public class WinchHoldToRaiseArm extends Command {
 	private static final double RAISE_ARM_WINCH_SPEED = 0.5;
 
 	private boolean done;
 
-	public WinchRaiseArm() {
+	public WinchHoldToRaiseArm() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
 		requires(Robot.winch);
