@@ -23,13 +23,14 @@ public class AnalogGyroTurn extends Command {
 	protected void initialize() {
 		Robot.analogGyroTurn.setRelativeAngle(angle);
 		Robot.analogGyroTurn.enable();
+		Robot.driveTrain.tankDrive(0, 0);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		System.out.printf("angle=%.2f destAngle=%.2f rotateSpeed=%.2f\n",
+		System.out.printf("angle=%.2f target=%.2f rotateSpeed=%.2f\n",
 				Robot.analogGyroTurn.safeGetAngle(),
-				Robot.analogGyroTurn.destinationAngle,
+				Robot.analogGyroTurn.targetAngle,
 				Robot.analogGyroTurn.rotateSpeed);
 		Robot.driveTrain.tankDrive(-Robot.analogGyroTurn.rotateSpeed, Robot.analogGyroTurn.rotateSpeed);
 	}
@@ -41,6 +42,10 @@ public class AnalogGyroTurn extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
+		System.out.printf("angle=%.2f target=%.2f rotateSpeed=%.2f\n",
+				Robot.analogGyroTurn.safeGetAngle(),
+				Robot.analogGyroTurn.targetAngle,
+				Robot.analogGyroTurn.rotateSpeed);
 		Robot.driveTrain.tankDrive(0, 0);
 		Robot.analogGyroTurn.disable();
 	}

@@ -27,6 +27,8 @@ public class AutoCenterRightGroupFront extends CommandGroup {
 //    	addSequential(new DriveAutoTimed(1));
     	addSequential(new AnalogGyroTurn(45));
     	addSequential(new DriveUntilCollisionBuiltIn());
+    	addSequential(new AnalogGyroTurn(-45));
+    	
 //    	addSequential(new DriveAutoTimed(2));
 //    	addSequential(new GyroTurn(-45));
 //    	addSequential(new RunEverything());

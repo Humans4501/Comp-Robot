@@ -13,10 +13,10 @@ public class AnalogGyroTurnSubsystem extends PIDSubsystem {
 	static double kToleranceDegrees = 2;
 	static double kMaxOutputRange = .8;
 	
+	public double targetAngle;
 	public double rotateSpeed;
 	
-	public double destinationAngle;
-	boolean done = true;
+	boolean running = false;
 	
 	public AnalogGyroTurnSubsystem() {
 		super(kP, kI, kD);
@@ -28,18 +28,19 @@ public class AnalogGyroTurnSubsystem extends PIDSubsystem {
 	}
 	
 	public void setRelativeAngle(double angle) {
-		destinationAngle = safeGetAngle() + angle;
+		targetAngle = angle;
+		running = true;
 		rotateSpeed = 0;
-		done = false;
-		setSetpoint(destinationAngle);
+		Robot.analogGyro.reset();
+		setSetpoint(angle);
 	}
 
 	public boolean isTurningDone() {
-		double deltaAngle = Math.abs(safeGetAngle() - destinationAngle);
+		double deltaAngle = Math.abs(safeGetAngle() - targetAngle);
 		if (deltaAngle <= kToleranceDegrees) {
-			done = true;
+			running = false;
 		}
-		return done;
+		return !running;
 	}
 	
 	@Override
@@ -49,7 +50,7 @@ public class AnalogGyroTurnSubsystem extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		rotateSpeed = done ? 0 : output;
+		rotateSpeed = running ? output : 0;
 	}
 
 	@Override
