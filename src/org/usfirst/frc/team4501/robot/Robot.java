@@ -31,11 +31,13 @@ import org.usfirst.frc.team4501.robot.subsystems.Winch;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -65,6 +67,7 @@ public class Robot extends TimedRobot {
 	public static OI oi;
 	public static AHRS ahrs;
 	public static Gyro analogGyro;
+	public static BuiltInAccelerometer builtInAccelerometer;
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -79,6 +82,7 @@ public class Robot extends TimedRobot {
 		oi = new OI();
 		analogGyro = new ADXRS450_Gyro();
 		analogGyro.calibrate();
+		builtInAccelerometer = new BuiltInAccelerometer(Accelerometer.Range.k4G);
 
 		try {
 			/***********************************************************************
