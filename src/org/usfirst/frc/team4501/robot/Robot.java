@@ -19,6 +19,7 @@ import org.usfirst.frc.team4501.robot.commands.LeftToRightFront;
 import org.usfirst.frc.team4501.robot.commands.LeftToRightSide;
 import org.usfirst.frc.team4501.robot.commands.RightToLeftFront;
 import org.usfirst.frc.team4501.robot.commands.RightToLeftSide;
+import org.usfirst.frc.team4501.robot.commands.SmoothDrive;
 import org.usfirst.frc.team4501.robot.subsystems.Conveyor;
 import org.usfirst.frc.team4501.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team4501.robot.subsystems.GyroTurnSubsystem;
@@ -83,15 +84,6 @@ public class Robot extends TimedRobot {
 			 * Multiple navX-model devices on a single robot are supported.
 			 ************************************************************************/
 			ahrs = new AHRS(SPI.Port.kMXP);
-
-			SmartDashboard.putNumber("NAVX_Yaw", ahrs.getYaw());
-			SmartDashboard.putBoolean("NAVX_IsCalibrating", ahrs.isCalibrating());
-			SmartDashboard.putBoolean("NAVX_IsRotating", ahrs.isRotating());
-			SmartDashboard.putNumber("NAVX_SensorTimestamp", ahrs.getLastSensorTimestamp());
-			SmartDashboard.putNumber("NAVX_RequestedUpdateRate", ahrs.getRequestedUpdateRate());
-			SmartDashboard.putNumber("NAVX_ActualUpdateRate", ahrs.getActualUpdateRate());
-			SmartDashboard.putString("NAVX_FirmwareVersion", ahrs.getFirmwareVersion());
-
 		} catch (RuntimeException ex) {
 			DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
 		}
@@ -114,8 +106,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("CurrXACCL:", 0);
 		SmartDashboard.putNumber("CurrYACCL:", 0);
 
-		NetworkTable.setIPAddress("10.95.1.55");
-		table = NetworkTable.getTable("limelight");
+//		NetworkTable.setIPAddress("10.95.1.55");
+//		table = NetworkTable.getTable("limelight");
 		// chooser.addObject("My Auto", new MyAutoCommand());
 
 		// m_chooser.addObject("Test Timed Auto", new DriveAutoTimed(1));
@@ -132,12 +124,12 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		UpdateNavXDashboard();
 	}
 
 	/**
@@ -155,15 +147,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		m_autonomousCommand = m_chooser.getSelected();
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
-		 * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
-		 * ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
@@ -175,6 +158,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		UpdateNavXDashboard();
 
 		// L I M E L I G H T
 		// double tx = table.getNumber("tx", 0);
@@ -197,7 +181,8 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
-
+		// Start smooth driving.
+		Scheduler.getInstance().add(new SmoothDrive());
 	}
 
 	/**
@@ -206,13 +191,23 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-
 	}
+	
 
 	/**
 	 * This function is called periodically during test mode.
 	 */
 	@Override
 	public void testPeriodic() {
+	}
+	
+	/**
+	 * Update NAVX dashboard values.
+	 */
+	private void UpdateNavXDashboard() {
+		SmartDashboard.putNumber("NAVX_Angle", ahrs.getAngle());
+		SmartDashboard.putBoolean("NAVX_IsCalibrating", ahrs.isCalibrating());
+		SmartDashboard.putBoolean("NAVX_IsRotating", ahrs.isRotating());
+		SmartDashboard.putNumber("NAVX_SensorTimestamp", ahrs.getLastSensorTimestamp());
 	}
 }

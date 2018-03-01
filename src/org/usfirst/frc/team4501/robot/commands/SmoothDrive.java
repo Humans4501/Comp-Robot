@@ -42,8 +42,7 @@ public class SmoothDrive extends Command {
     	double desiredTurn = Robot.oi.getLeftXboxX();
     	double calculatedTurn;
     	
-    	
-    	//acceleratin
+    	//accelerating
     	if(desiredPower > lastPower) {
     		calculatedPower = lastPower + maxPowerPerSecond * deltaTime/1000;
     	}
@@ -56,7 +55,6 @@ public class SmoothDrive extends Command {
 		if(calculatedPower > 0 && calculatedPower < thresholdPower && desiredPower > thresholdPower) {
     		calculatedPower = thresholdPower;
     	}
-		
 		
 		//turning
 		if(desiredTurn > lastTurn) {
@@ -76,15 +74,13 @@ public class SmoothDrive extends Command {
     	} else if (calculatedTurn < 0 && calculatedTurn > -thresholdTurn && desiredTurn < -thresholdTurn) {
     		calculatedTurn = -thresholdTurn;
     	}
-		
     	
     	Robot.driveTrain.driveTime(-calculatedPower, -calculatedTurn);
     	
     	lastPower = calculatedPower;
-    	
     	lastTurn = calculatedTurn;
     	
-    	System.out.printf("desiredPower = %.2g calculatedPower = %.2g desiredTurn = %.2g calculatedTurn = %.2g\n", desiredPower , calculatedPower , desiredTurn , calculatedTurn);
+    	System.out.printf("desiredPower=%.2f calculatedPower=%.2f desiredTurn=%.2f calculatedTurn=%.2f\n", desiredPower , calculatedPower , desiredTurn , calculatedTurn);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -98,7 +94,8 @@ public class SmoothDrive extends Command {
     }
 
     // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
+    // subsystems is scheduled to run. Or when the command is canceled.
     protected void interrupted() {
+    	Robot.driveTrain.driveTime(0, 0);
     }
 }

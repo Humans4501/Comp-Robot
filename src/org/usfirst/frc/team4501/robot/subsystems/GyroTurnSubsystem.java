@@ -6,16 +6,16 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class GyroTurnSubsystem extends PIDSubsystem {
-	static double kP = 0.01;
-	static double kI = 0.035;
+	static double kP = 0.03;
+	static double kI = 0.02;
 	static double kD = 0;
 	static double kF = 0;
 	static double kToleranceDegrees = 2;
-	static double kMaxOutputRange = 0.6;
+	static double kMaxOutputRange = .8;
 	
 	public double rotateSpeed;
 	
-	double angle;
+	public double destinationAngle;
 	boolean done = true;
 	
 	public GyroTurnSubsystem() {
@@ -27,16 +27,15 @@ public class GyroTurnSubsystem extends PIDSubsystem {
 		SmartDashboard.putData("GyroTurnPID", getPIDController());
 	}
 	
-	public void setAngle(double angle) {
-		this.angle = angle;
+	public void setRelativeAngle(double angle) {
+		destinationAngle = safeGetAngle() + angle;
 		rotateSpeed = 0;
 		done = false;
-		Robot.ahrs.reset();
-		setSetpoint(angle);
+		setSetpoint(destinationAngle);
 	}
 
 	public boolean isTurningDone() {
-		double deltaAngle = Math.abs(Robot.ahrs.getYaw() - angle);
+		double deltaAngle = Math.abs(safeGetAngle() - destinationAngle);
 		if (deltaAngle <= kToleranceDegrees) {
 			done = true;
 		}
@@ -45,7 +44,7 @@ public class GyroTurnSubsystem extends PIDSubsystem {
 	
 	@Override
 	protected double returnPIDInput() {
-		return Robot.ahrs.getYaw();
+		return Robot.ahrs.getAngle();
 	}
 
 	@Override
@@ -56,4 +55,9 @@ public class GyroTurnSubsystem extends PIDSubsystem {
 	@Override
 	protected void initDefaultCommand() {
 	}
+	
+	public double safeGetAngle() {
+		return (Robot.ahrs != null) ? Robot.ahrs.getAngle() : 0;
+	}
+	
 }

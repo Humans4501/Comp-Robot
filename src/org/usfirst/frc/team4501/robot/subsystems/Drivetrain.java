@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4501.robot.subsystems;
 
 import org.usfirst.frc.team4501.robot.RobotMap;
-import org.usfirst.frc.team4501.robot.commands.SmoothDrive;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -29,10 +28,9 @@ public class Drivetrain extends Subsystem {
 		talon1 = new Talon(RobotMap.TALON_1);
 		talon2 = new Talon(RobotMap.TALON_2);
 
-		driveSol = new DoubleSolenoid(RobotMap.DRIVESOL1, RobotMap.DRIVESOL2);
+//		driveSol = new DoubleSolenoid(RobotMap.DRIVESOL1, RobotMap.DRIVESOL2);
 
 		drive = new RobotDrive(talon1, talon2);
-
 	}
 
 	public void driveTime(double forward, double rotate) {
@@ -43,12 +41,12 @@ public class Drivetrain extends Subsystem {
 	public void arcadeDrive(double forward, double rotate) {
 		drive.arcadeDrive(forward, rotate);
 	}
+	
+	public void tankDrive(double leftValue, double rightValue) {
+		drive.tankDrive(leftValue, rightValue);
+	}
 
 	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-		// setDefaultCommand(new MySpecialCommand());
-		setDefaultCommand(new SmoothDrive());
-
 	}
 
 	public void shiftHigh() {
