@@ -9,22 +9,27 @@ import edu.wpi.first.wpilibj.command.TimedCommand;
  */
 public class DriveAutoTimed extends TimedCommand {
 
+	double Kp = 0.03;
+
 	public DriveAutoTimed(double timeout) {
-		super(timeout / 10);
+		super(timeout);
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.driveTrain);
+
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
+		Robot.analogGyro.reset();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.driveTrain.driveTime(0.85, 0);
+		double angle = Robot.analogGyro.getAngle();
+		Robot.driveTrain.driveTime(0.85, angle * Kp);
 	}
 
 	// Called once after timeout
