@@ -2,21 +2,15 @@ package org.usfirst.frc.team4501.robot.commands;
 
 import org.usfirst.frc.team4501.robot.Robot;
 
-import com.kauailabs.navx.frc.AHRS;
-
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
 public class DriveUntilCollision extends Command {
-
-	AHRS ahrs;
-
 	double lastX;
 	double lastY;
+	boolean running;
 
 	final static double kCollisionThreshold_DeltaG = 0.5;
 
@@ -24,66 +18,52 @@ public class DriveUntilCollision extends Command {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.driveTrain);
-		try {
-			ahrs = new AHRS(SPI.Port.kMXP);
-
-		} catch (RuntimeException e) {
-			DriverStation.reportError("Error Instantiating navX-MXP: " + e.getMessage(), true);
-		}
-
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-
-		lastX = ahrs.getWorldLinearAccelX();
-		lastY = ahrs.getWorldLinearAccelY();
-
-		System.out.println("Running Collision Command");
-
+		lastX = Robot.builtInAccelerometer.getX();
+		lastY = Robot.builtInAccelerometer.getY();
+		running = true;
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		boolean done = false;
-
-		while (!done) {
-
-			double currX = ahrs.getWorldLinearAccelX();
-			double currY = ahrs.getWorldLinearAccelY();
+		if (running) {
+			double currX = Robot.builtInAccelerometer.getX();
+			double currY = Robot.builtInAccelerometer.getY();
 
 			double deltaX = currX - lastX;
 			double deltaY = currY - lastY;
 
-			System.out.printf("currX = %.2g lastX= %.2g\n", currX, lastX);
-			System.out.printf("currY = %.2g lastY= %.2g\n", currY, lastY);
-			System.out.println("HIT");
-
-			if (Math.abs(deltaX) > kCollisionThreshold_DeltaG || Math.abs(deltaY) > kCollisionThreshold_DeltaG) {
-
-				// TODO: STOP MOTOR DRIVE
-				break;
-			}
-
+			System.out.printf("currX=%.2f lastX= %.2g currY=%.2f lastY=%.2f\n", currX, lastX, currY, lastY);
+			
 			lastX = currX;
 			lastY = currY;
 
-			// TODO: ADD MOTOR DRIVE
-		}
+			if (Math.abs(deltaX) > kCollisionThreshold_DeltaG || Math.abs(deltaY) > kCollisionThreshold_DeltaG) {
+				System.out.println("HIT");
+				running = false;
+				return;
+			}
 
+			// TODO: ADD MOTOR DRIVE CODE TO DRIVE STRAIGHT USING GYRO.
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		return !running;
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
+		// TODO: STOP THE MOTORS
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
+		running = false;
 	}
 }
