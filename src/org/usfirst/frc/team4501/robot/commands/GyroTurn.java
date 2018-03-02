@@ -15,36 +15,39 @@ public class GyroTurn extends Command {
 
 	public GyroTurn(double angle) {
 		requires(Robot.driveTrain);
-		requires(Robot.gyroTurn);
+		requires(Robot.analogGyroTurn);
 		this.angle = angle;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.gyroTurn.setRelativeAngle(angle);
-		Robot.gyroTurn.enable();
-		
-		while (Robot.ahrs.isCalibrating()) {
-			System.out.println("waiting for NAVX calibration");
-		}
+		Robot.analogGyroTurn.setRelativeAngle(angle);
+		Robot.analogGyroTurn.enable();
+		Robot.driveTrain.tankDrive(0, 0);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		System.out.printf("angle=%.2f destAngle=%.2f rotateSpeed=%.2f\n",
-				Robot.gyroTurn.safeGetAngle(), Robot.gyroTurn.destinationAngle, Robot.gyroTurn.rotateSpeed);
-		Robot.driveTrain.tankDrive(-Robot.gyroTurn.rotateSpeed, Robot.gyroTurn.rotateSpeed);
+		System.out.printf("angle=%.2f target=%.2f rotateSpeed=%.2f\n",
+				Robot.analogGyroTurn.safeGetAngle(),
+				Robot.analogGyroTurn.targetAngle,
+				Robot.analogGyroTurn.rotateSpeed);
+		Robot.driveTrain.tankDrive(-Robot.analogGyroTurn.rotateSpeed, Robot.analogGyroTurn.rotateSpeed);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return Robot.gyroTurn.isTurningDone();
+		return Robot.analogGyroTurn.isTurningDone();
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
+		System.out.printf("angle=%.2f target=%.2f rotateSpeed=%.2f\n",
+				Robot.analogGyroTurn.safeGetAngle(),
+				Robot.analogGyroTurn.targetAngle,
+				Robot.analogGyroTurn.rotateSpeed);
 		Robot.driveTrain.tankDrive(0, 0);
-		Robot.gyroTurn.disable();
+		Robot.analogGyroTurn.disable();
 	}
 
 	// Called when another command which requires one or more of the same

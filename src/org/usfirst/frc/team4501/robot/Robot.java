@@ -23,7 +23,6 @@ import org.usfirst.frc.team4501.robot.commands.SmoothDrive;
 import org.usfirst.frc.team4501.robot.subsystems.AnalogGyroTurnSubsystem;
 import org.usfirst.frc.team4501.robot.subsystems.Conveyor;
 import org.usfirst.frc.team4501.robot.subsystems.Drivetrain;
-import org.usfirst.frc.team4501.robot.subsystems.GyroTurnSubsystem;
 import org.usfirst.frc.team4501.robot.subsystems.Intake;
 import org.usfirst.frc.team4501.robot.subsystems.Shooter;
 import org.usfirst.frc.team4501.robot.subsystems.Winch;
@@ -56,7 +55,6 @@ public class Robot extends TimedRobot {
 	NetworkTable table;
 
 	public static final Drivetrain driveTrain = new Drivetrain();
-	public static final GyroTurnSubsystem gyroTurn = new GyroTurnSubsystem(); 
 	public static final AnalogGyroTurnSubsystem analogGyroTurn = new AnalogGyroTurnSubsystem(); 
 
 	public static final Intake intake = new Intake();
@@ -65,7 +63,6 @@ public class Robot extends TimedRobot {
 	public static final Winch winch = new Winch();
 
 	public static OI oi;
-	public static AHRS ahrs;
 	public static Gyro analogGyro;
 	public static BuiltInAccelerometer builtInAccelerometer;
 
@@ -84,20 +81,8 @@ public class Robot extends TimedRobot {
 		analogGyro.calibrate();
 		builtInAccelerometer = new BuiltInAccelerometer(Accelerometer.Range.k4G);
 
-		try {
-			/***********************************************************************
-			 * navX-MXP: - Communication via RoboRIO MXP (SPI, I2C, TTL UART) and USB. - See
-			 * http://navx-mxp.kauailabs.com/guidance/selecting-an-interface.
-			 * 
-			 * navX-Micro: - Communication via I2C (RoboRIO MXP or Onboard) and USB. - See
-			 * http://navx-micro.kauailabs.com/guidance/selecting-an-interface.
-			 * 
-			 * Multiple navX-model devices on a single robot are supported.
-			 ************************************************************************/
-			ahrs = new AHRS(SPI.Port.kMXP);
-		} catch (RuntimeException ex) {
-			DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
-		}
+	
+		
 
 		m_chooser.addDefault("Center Right Front", new AutoCenterRightGroupFront());
 		m_chooser.addDefault("Center Right Side", new AutoCenterRightGroupSide());
@@ -131,12 +116,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotPeriodic() {
 		super.robotPeriodic();
-		
-		// NAVX
-		SmartDashboard.putNumber("NAVX_Angle", ahrs.getAngle());
-		SmartDashboard.putBoolean("NAVX_IsCalibrating", ahrs.isCalibrating());
-		SmartDashboard.putBoolean("NAVX_IsRotating", ahrs.isRotating());
-		SmartDashboard.putNumber("NAVX_SensorTimestamp", ahrs.getLastSensorTimestamp());
 		
 		// AnalogGyro
 		SmartDashboard.putNumber("AnalogGyro_Angle", analogGyro.getAngle());
