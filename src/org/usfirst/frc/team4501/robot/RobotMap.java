@@ -40,8 +40,11 @@ public class RobotMap {
 	public static final int SHOOTERTALON_1 = 6;
 	public static final int SHOOTERTALON_2 = 7;
 	
-	//winch
+	//WINCH
 	public static final int WINCHTALON = 8;
+	
+	//WINCH LIMIT SWITCH (DIO port #)
+	public static final int WINCH_LIMIT_SWITCH = 4;
 	
 	//SOLENOID
     public static final int DRIVESOL1 = 1;

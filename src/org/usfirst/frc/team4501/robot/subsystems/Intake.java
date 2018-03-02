@@ -1,20 +1,11 @@
 package org.usfirst.frc.team4501.robot.subsystems;
 
-import org.usfirst.frc.team4501.robot.Robot;
 import org.usfirst.frc.team4501.robot.RobotMap;
 
-import com.kauailabs.navx.frc.AHRS;
-
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
  *
@@ -40,8 +31,8 @@ public class Intake extends Subsystem {
 		
 		intakeSystem = new RobotDrive(italon1, italon2);
 		
-		intakeSol = new DoubleSolenoid(RobotMap.INTAKESOL1 , RobotMap.INTAKESOL2);
-		thirdWheel = new DoubleSolenoid(RobotMap.THIRDWHEEL1 , RobotMap.THIRDWHEEL2);
+//		intakeSol = new DoubleSolenoid(RobotMap.INTAKESOL1 , RobotMap.INTAKESOL2);
+//		thirdWheel = new DoubleSolenoid(RobotMap.THIRDWHEEL1 , RobotMap.THIRDWHEEL2);
 	}
 
 	

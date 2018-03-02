@@ -7,11 +7,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class WinchSlow extends Command {
+public class WinchClimb extends Command {
+	private final double FAST_WINCH_SPEED = 0.6;
 
-    public WinchSlow() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+    public WinchClimb() {
     	requires(Robot.winch);
     }
 
@@ -21,7 +20,7 @@ public class WinchSlow extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.winch.Winch(0.75);
+    	Robot.winch.runWinchOverrideLimitSwitch(FAST_WINCH_SPEED);
     }
 
     // Make this return true when this Command no longer needs to run execute()

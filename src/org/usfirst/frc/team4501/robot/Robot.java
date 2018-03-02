@@ -7,27 +7,40 @@
 
 package org.usfirst.frc.team4501.robot;
 
-import edu.wpi.first.wpilibj.RobotDrive;
+import org.usfirst.frc.team4501.robot.commands.AutoCenterLeftGroupFront;
+import org.usfirst.frc.team4501.robot.commands.AutoCenterLeftGroupSide;
+import org.usfirst.frc.team4501.robot.commands.AutoCenterRightGroupFront;
+import org.usfirst.frc.team4501.robot.commands.AutoCenterRightGroupSide;
+import org.usfirst.frc.team4501.robot.commands.AutoLeftFront;
+import org.usfirst.frc.team4501.robot.commands.AutoLeftSide;
+import org.usfirst.frc.team4501.robot.commands.AutoRightFront;
+import org.usfirst.frc.team4501.robot.commands.AutoRightSide;
+import org.usfirst.frc.team4501.robot.commands.LeftToRightFront;
+import org.usfirst.frc.team4501.robot.commands.LeftToRightSide;
+import org.usfirst.frc.team4501.robot.commands.RightToLeftFront;
+import org.usfirst.frc.team4501.robot.commands.RightToLeftSide;
+import org.usfirst.frc.team4501.robot.commands.SmoothDrive;
+import org.usfirst.frc.team4501.robot.subsystems.AnalogGyroTurnSubsystem;
+import org.usfirst.frc.team4501.robot.subsystems.Conveyor;
+import org.usfirst.frc.team4501.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team4501.robot.subsystems.Intake;
+import org.usfirst.frc.team4501.robot.subsystems.Shooter;
+import org.usfirst.frc.team4501.robot.subsystems.Winch;
+
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team4501.robot.commands.AutoCenterGroup;
-import org.usfirst.frc.team4501.robot.commands.AutoLeftorRightGroup;
-import org.usfirst.frc.team4501.robot.commands.DriveAutoTimed;
-import org.usfirst.frc.team4501.robot.commands.DriveUntilCollision;
-import org.usfirst.frc.team4501.robot.commands.ExampleCommand;
-import org.usfirst.frc.team4501.robot.commands.VisionPID;
-import org.usfirst.frc.team4501.robot.subsystems.Intake;
-import org.usfirst.frc.team4501.robot.subsystems.Conveyor;
-import org.usfirst.frc.team4501.robot.subsystems.Drivetrain;
-import org.usfirst.frc.team4501.robot.subsystems.ExampleSubsystem;
-import org.usfirst.frc.team4501.robot.subsystems.Shooter;
-import org.usfirst.frc.team4501.robot.subsystems.Winch;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -38,13 +51,11 @@ import org.usfirst.frc.team4501.robot.subsystems.Winch;
  */
 public class Robot extends TimedRobot {
 	public static Robot instance;
-//	RobotDrive myDrive = new RobotDrive(RobotMap.TALON_1, RobotMap.TALON_2);
 
-	
 	NetworkTable table;
-	
-	public static final ExampleSubsystem kExampleSubsystem = new ExampleSubsystem();
+
 	public static final Drivetrain driveTrain = new Drivetrain();
+	public static final AnalogGyroTurnSubsystem analogGyroTurn = new AnalogGyroTurnSubsystem(); 
 
 	public static final Intake intake = new Intake();
 	public static final Shooter shooter = new Shooter();
@@ -52,6 +63,8 @@ public class Robot extends TimedRobot {
 	public static final Winch winch = new Winch();
 
 	public static OI oi;
+	public static Gyro analogGyro;
+	public static BuiltInAccelerometer builtInAccelerometer;
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -64,23 +77,58 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		instance = this;
 		oi = new OI();
-		m_chooser.addDefault("Default Auto", new ExampleCommand());
-		m_chooser.addDefault("Testing Collision", new DriveUntilCollision());
+		analogGyro = new ADXRS450_Gyro();
+		analogGyro.calibrate();
+		builtInAccelerometer = new BuiltInAccelerometer(Accelerometer.Range.k4G);
+
+	
+		
+
+		m_chooser.addDefault("Center Right Front", new AutoCenterRightGroupFront());
+		m_chooser.addDefault("Center Right Side", new AutoCenterRightGroupSide());
+		m_chooser.addDefault("Center Left Front", new AutoCenterLeftGroupFront());
+		m_chooser.addDefault("Center Left Side", new AutoCenterLeftGroupSide());
+		m_chooser.addDefault("Right Front", new AutoRightFront());
+		m_chooser.addDefault("Right Side", new AutoRightSide());
+		m_chooser.addDefault("Left Front", new AutoLeftFront());
+		m_chooser.addDefault("Left Side", new AutoLeftSide());
+		m_chooser.addDefault("Left to Right Front", new LeftToRightFront());
+		m_chooser.addDefault("Left to Right Side", new LeftToRightSide());
+		m_chooser.addDefault("Right to Left Front", new RightToLeftFront());
+		m_chooser.addDefault("Right to Left Side", new RightToLeftSide());
+
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
 		SmartDashboard.putNumber("CurrXACCL:", 0);
 		SmartDashboard.putNumber("CurrYACCL:", 0);
-		
-		NetworkTable.setIPAddress("10.95.1.55");
-		table = NetworkTable.getTable("limelight");
+
+//		NetworkTable.setIPAddress("10.95.1.55");
+//		table = NetworkTable.getTable("limelight");
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
+
+		// m_chooser.addObject("Test Timed Auto", new DriveAutoTimed(1));
+		// m_chooser.addObject("Test VisionPID", new VisionPID());
+		//
+		// m_chooser.addObject("Center", new AutoCenterGroup());
+		// m_chooser.addObject("Left/Right", new AutoLeftorRightGroup());
+	}
+
+	@Override
+	public void robotPeriodic() {
+		super.robotPeriodic();
 		
-//		m_chooser.addObject("Test Timed Auto", new DriveAutoTimed(1));
-//		m_chooser.addObject("Test VisionPID", new VisionPID());
-//		
-//		m_chooser.addObject("Center", new AutoCenterGroup());
-//		m_chooser.addObject("Left/Right", new AutoLeftorRightGroup());
+		// AnalogGyro
+		SmartDashboard.putNumber("AnalogGyro_Angle", analogGyro.getAngle());
+
+		// L I M E L I G H T
+		// double tx = table.getNumber("tx", 0);
+		// double ty = table.getNumber("ty", 0);
+		// double targetArea = table.getNumber("ta", 0);
+		// double targetSkew = table.getNumber("ts", 0);
+		// double targetView = table.getNumber("tv", 0);
+		//
+		// SmartDashboard.putNumber("targetView", targetView);
+		// SmartDashboard.putNumber("tx", tx);
 	}
 
 	/**
@@ -90,7 +138,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
 	}
 
 	@Override
@@ -113,15 +160,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		m_autonomousCommand = m_chooser.getSelected();
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
-		 * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
-		 * ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
@@ -133,17 +171,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		
-		//L I M E L I G H T
-//				double tx = table.getNumber("tx", 0);
-//				double ty = table.getNumber("ty", 0);
-//				double targetArea = table.getNumber("ta", 0);
-//				double targetSkew = table.getNumber("ts", 0);
-//				double targetView = table.getNumber("tv", 0);
-//
-//				SmartDashboard.putNumber("targetView", targetView);
-//				SmartDashboard.putNumber("tx", tx);
-//				SmartDashboard.putNumber("ty", ty);
+		// SmartDashboard.putNumber("ty", ty);
 	}
 
 	@Override
@@ -155,7 +183,8 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
-
+		// Start smooth driving.
+		Scheduler.getInstance().add(new SmoothDrive());
 	}
 
 	/**
@@ -164,8 +193,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-
 	}
+	
 
 	/**
 	 * This function is called periodically during test mode.
@@ -173,9 +202,4 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 	}
-	
-//	public void setArcadeDrive(double move, double turn) {
-//		//TO DO: CHANGE 0 BACK TO TURN SO IT MOVES AND TURNS AT THE SAME TIME
-//		myDrive.arcadeDrive(move, turn);
-//	}
 }
