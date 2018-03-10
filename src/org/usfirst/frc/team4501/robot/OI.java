@@ -3,6 +3,8 @@ package org.usfirst.frc.team4501.robot;
 import org.usfirst.frc.team4501.robot.commands.Eject;
 import org.usfirst.frc.team4501.robot.commands.IntakeClose;
 import org.usfirst.frc.team4501.robot.commands.IntakeOpen;
+import org.usfirst.frc.team4501.robot.commands.LiftArm;
+import org.usfirst.frc.team4501.robot.commands.LowerArm;
 import org.usfirst.frc.team4501.robot.commands.MyNameIsBoxy;
 import org.usfirst.frc.team4501.robot.commands.MyNameIsBoxy2;
 import org.usfirst.frc.team4501.robot.commands.ShiftHigh;
@@ -60,36 +62,42 @@ public class OI {
 	// Intake
 	Button intakeOpen = new JoystickButton(controller2, controller2.BUTTON_X);
 	Button intakeClose = new JoystickButton(controller2, controller2.BUTTON_Y);
-	
-	//Command Groups
+
+	// Command Groups
 	Button partUno = new JoystickButton(controller2, controller2.BUTTON_A);
 	Button partDos = new JoystickButton(controller2, controller2.BUTTON_B);
 	Button ejection = new JoystickButton(controller2, controller2.BUTTON_START);
 	Button actionExpressUpShoot = new JoystickButton(controller2, controller2.BUMPER_R);
-	
-	//WINCH 
+
+	// WINCH
 	Button winchHoldToRaise = new JoystickButton(controller, controller.BUTTON_X);
 	Button winchClimb = new JoystickButton(controller, controller.BUTTON_Y);
+
+	Button liftArm = new JoystickButton(controller2, controller2.BUMPER_L);
+	Button lowerArm = new JoystickButton(controller2, controller2.BUTTON_BACK);
 
 	public OI() {
 		shiftHigh.whenPressed(new ShiftHigh());
 		shiftLow.whenPressed(new ShiftLow());
 
+		liftArm.whenPressed(new LiftArm());
+		lowerArm.whenPressed(new LowerArm());
+
 		intakeOpen.whenPressed(new IntakeOpen());
 		intakeClose.whenPressed(new IntakeClose());
-		
+
 		partUno.whileHeld(new MyNameIsBoxy());
 		partUno.whenReleased(new StopEverything());
-		
+
 		partDos.whileHeld(new MyNameIsBoxy2());
 		partDos.whenReleased(new StopEverything());
-		
+
 		ejection.whileHeld(new Eject());
 		ejection.whenReleased(new StopEverything());
-		
+
 		winchHoldToRaise.whileHeld(new WinchHoldToRaiseArm());
 		winchHoldToRaise.whenReleased(new WinchStop());
-		
+
 		winchClimb.whileHeld(new WinchClimb());
 		winchClimb.whenReleased(new WinchStop());
 	}
@@ -133,6 +141,5 @@ public class OI {
 	public double getRightXboxY2() {
 		return controller2.getRawAxis(5);
 	}
-	
 
 }
