@@ -21,6 +21,7 @@ public class DriveUntilCollision extends Command {
 	}
 
 	// Called just before this Command runs the first time
+	@Override
 	protected void initialize() {
 		lastX = Robot.builtInAccelerometer.getX();
 		lastY = Robot.builtInAccelerometer.getY();
@@ -28,6 +29,7 @@ public class DriveUntilCollision extends Command {
 	}
 
 	// Called repeatedly when this Command is scheduled to run
+	@Override
 	protected void execute() {
 		if (running) {
 			double currX = Robot.builtInAccelerometer.getX();
@@ -37,7 +39,7 @@ public class DriveUntilCollision extends Command {
 			double deltaY = currY - lastY;
 
 			System.out.printf("currX=%.2f lastX= %.2g currY=%.2f lastY=%.2f\n", currX, lastX, currY, lastY);
-			
+
 			lastX = currX;
 			lastY = currY;
 
@@ -47,22 +49,25 @@ public class DriveUntilCollision extends Command {
 				return;
 			}
 
-			// TODO: ADD MOTOR DRIVE CODE TO DRIVE STRAIGHT USING GYRO.
+			Robot.driveTrain.driveTime(0.85, 0);
 		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
+	@Override
 	protected boolean isFinished() {
 		return !running;
 	}
 
 	// Called once after isFinished returns true
+	@Override
 	protected void end() {
-		// TODO: STOP THE MOTORS
+		Robot.driveTrain.driveTime(0, 0);
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
+	@Override
 	protected void interrupted() {
 		running = false;
 	}

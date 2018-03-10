@@ -27,12 +27,10 @@ import org.usfirst.frc.team4501.robot.subsystems.Intake;
 import org.usfirst.frc.team4501.robot.subsystems.Shooter;
 import org.usfirst.frc.team4501.robot.subsystems.Winch;
 
-import com.kauailabs.navx.frc.AHRS;
-
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -55,7 +53,7 @@ public class Robot extends TimedRobot {
 	NetworkTable table;
 
 	public static final Drivetrain driveTrain = new Drivetrain();
-	public static final AnalogGyroTurnSubsystem analogGyroTurn = new AnalogGyroTurnSubsystem(); 
+	public static final AnalogGyroTurnSubsystem analogGyroTurn = new AnalogGyroTurnSubsystem();
 
 	public static final Intake intake = new Intake();
 	public static final Shooter shooter = new Shooter();
@@ -81,8 +79,9 @@ public class Robot extends TimedRobot {
 		analogGyro.calibrate();
 		builtInAccelerometer = new BuiltInAccelerometer(Accelerometer.Range.k4G);
 
-	
-		
+		UsbCamera camera = new UsbCamera("FrontCamera", 0);
+		camera.setResolution(160, 120);
+		CameraServer.getInstance().startAutomaticCapture(camera);
 
 		m_chooser.addDefault("Center Right Front", new AutoCenterRightGroupFront());
 		m_chooser.addDefault("Center Right Side", new AutoCenterRightGroupSide());
@@ -99,11 +98,9 @@ public class Robot extends TimedRobot {
 
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
-		SmartDashboard.putNumber("CurrXACCL:", 0);
-		SmartDashboard.putNumber("CurrYACCL:", 0);
 
-//		NetworkTable.setIPAddress("10.95.1.55");
-//		table = NetworkTable.getTable("limelight");
+		// NetworkTable.setIPAddress("10.95.1.55");
+		// table = NetworkTable.getTable("limelight");
 		// chooser.addObject("My Auto", new MyAutoCommand());
 
 		// m_chooser.addObject("Test Timed Auto", new DriveAutoTimed(1));
@@ -116,9 +113,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotPeriodic() {
 		super.robotPeriodic();
-		
+
 		// AnalogGyro
 		SmartDashboard.putNumber("AnalogGyro_Angle", analogGyro.getAngle());
+		SmartDashboard.putNumber("Acceleration X", builtInAccelerometer.getX());
+		SmartDashboard.putNumber("Acceleration Y", builtInAccelerometer.getY());
 
 		// L I M E L I G H T
 		// double tx = table.getNumber("tx", 0);
@@ -160,9 +159,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		m_autonomousCommand = m_chooser.getSelected();
+		Robot.driveTrain.shiftLow();
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
+
 	}
 
 	/**
@@ -185,6 +186,7 @@ public class Robot extends TimedRobot {
 		}
 		// Start smooth driving.
 		Scheduler.getInstance().add(new SmoothDrive());
+		Robot.driveTrain.shiftLow();
 	}
 
 	/**
@@ -194,7 +196,6 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 	}
-	
 
 	/**
 	 * This function is called periodically during test mode.
