@@ -20,6 +20,7 @@ import org.usfirst.frc.team4501.robot.commands.LeftToRightSide;
 import org.usfirst.frc.team4501.robot.commands.RightToLeftFront;
 import org.usfirst.frc.team4501.robot.commands.RightToLeftSide;
 import org.usfirst.frc.team4501.robot.commands.SmoothDrive;
+import org.usfirst.frc.team4501.robot.commands.Timer;
 import org.usfirst.frc.team4501.robot.subsystems.AnalogGyroTurnSubsystem;
 import org.usfirst.frc.team4501.robot.subsystems.Conveyor;
 import org.usfirst.frc.team4501.robot.subsystems.Drivetrain;
@@ -27,10 +28,8 @@ import org.usfirst.frc.team4501.robot.subsystems.Intake;
 import org.usfirst.frc.team4501.robot.subsystems.Shooter;
 import org.usfirst.frc.team4501.robot.subsystems.Winch;
 
-import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -79,9 +78,9 @@ public class Robot extends TimedRobot {
 		analogGyro.calibrate();
 		builtInAccelerometer = new BuiltInAccelerometer(Accelerometer.Range.k4G);
 
-		UsbCamera camera = new UsbCamera("FrontCamera", 0);
-		camera.setResolution(160, 120);
-		CameraServer.getInstance().startAutomaticCapture(camera);
+		// UsbCamera camera = new UsbCamera("FrontCamera", 0);
+		// camera.setResolution(160, 120);
+		// CameraServer.getInstance().startAutomaticCapture(camera);
 
 		m_chooser.addDefault("Center Right Front", new AutoCenterRightGroupFront());
 		m_chooser.addDefault("Center Right Side", new AutoCenterRightGroupSide());
@@ -95,6 +94,7 @@ public class Robot extends TimedRobot {
 		m_chooser.addDefault("Left to Right Side", new LeftToRightSide());
 		m_chooser.addDefault("Right to Left Front", new RightToLeftFront());
 		m_chooser.addDefault("Right to Left Side", new RightToLeftSide());
+		m_chooser.addDefault("Timer", new Timer());
 
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
@@ -159,7 +159,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		m_autonomousCommand = m_chooser.getSelected();
-		Robot.driveTrain.shiftLow();
+		// Robot.driveTrain.shiftLow();
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
@@ -186,7 +186,7 @@ public class Robot extends TimedRobot {
 		}
 		// Start smooth driving.
 		Scheduler.getInstance().add(new SmoothDrive());
-		Robot.driveTrain.shiftLow();
+		// Robot.driveTrain.shiftLow();
 	}
 
 	/**

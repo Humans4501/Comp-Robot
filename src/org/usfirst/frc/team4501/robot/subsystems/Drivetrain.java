@@ -21,14 +21,13 @@ public class Drivetrain extends Subsystem {
 
 	DoubleSolenoid driveSol;
 
-
 	public Drivetrain() {
 		instance = this;
 
 		talon1 = new Talon(RobotMap.TALON_1);
 		talon2 = new Talon(RobotMap.TALON_2);
 
-//		driveSol = new DoubleSolenoid(RobotMap.DRIVESOL1, RobotMap.DRIVESOL2);
+		// driveSol = new DoubleSolenoid(RobotMap.DRIVESOL1, RobotMap.DRIVESOL2);
 
 		drive = new RobotDrive(talon1, talon2);
 	}
@@ -37,24 +36,25 @@ public class Drivetrain extends Subsystem {
 		drive.arcadeDrive(-forward, -rotate);
 		drive.setSafetyEnabled(false);
 	}
-	
+
 	public void arcadeDrive(double forward, double rotate) {
 		drive.arcadeDrive(forward, rotate);
 	}
-	
+
 	public void tankDrive(double leftValue, double rightValue) {
 		drive.tankDrive(leftValue, rightValue);
 	}
 
+	@Override
 	public void initDefaultCommand() {
 	}
 
-	public void shiftHigh() {
-		driveSol.set(DoubleSolenoid.Value.kForward);
-	}
+	// public void shiftHigh() {
+	// driveSol.set(DoubleSolenoid.Value.kForward);
+	// }
+	//
+	// public void shiftLow() {
+	// driveSol.set(DoubleSolenoid.Value.kReverse);
+	// }
 
-	public void shiftLow() {
-		driveSol.set(DoubleSolenoid.Value.kReverse);
-	}
-	
 }
