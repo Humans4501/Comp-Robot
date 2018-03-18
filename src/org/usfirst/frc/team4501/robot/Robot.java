@@ -20,7 +20,6 @@ import org.usfirst.frc.team4501.robot.commands.LeftToRightSide;
 import org.usfirst.frc.team4501.robot.commands.RightToLeftFront;
 import org.usfirst.frc.team4501.robot.commands.RightToLeftSide;
 import org.usfirst.frc.team4501.robot.commands.SmoothDrive;
-import org.usfirst.frc.team4501.robot.commands.Timer;
 import org.usfirst.frc.team4501.robot.subsystems.AnalogGyroTurnSubsystem;
 import org.usfirst.frc.team4501.robot.subsystems.Conveyor;
 import org.usfirst.frc.team4501.robot.subsystems.Drivetrain;
@@ -94,7 +93,6 @@ public class Robot extends TimedRobot {
 		m_chooser.addDefault("Left to Right Side", new LeftToRightSide());
 		m_chooser.addDefault("Right to Left Front", new RightToLeftFront());
 		m_chooser.addDefault("Right to Left Side", new RightToLeftSide());
-		m_chooser.addDefault("Timer", new Timer());
 
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
@@ -184,6 +182,10 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+
+		// Arm the winch limit switch.
+		Robot.winch.resetLimitSwitch();
+
 		// Start smooth driving.
 		Scheduler.getInstance().add(new SmoothDrive());
 		// Robot.driveTrain.shiftLow();

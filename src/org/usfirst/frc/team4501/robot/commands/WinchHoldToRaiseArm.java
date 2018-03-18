@@ -13,33 +13,37 @@ public class WinchHoldToRaiseArm extends Command {
 	private boolean done;
 
 	public WinchHoldToRaiseArm() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+		// Use requires() here to declare subsystem dependencies
+		// eg. requires(chassis);
 		requires(Robot.winch);
 	}
 
 	// Called just before this Command runs the first time
+	@Override
 	protected void initialize() {
-		Robot.winch.resetLimitSwitch();
 		done = false;
 	}
 
 	// Called repeatedly when this Command is scheduled to run
+	@Override
 	protected void execute() {
 		Robot.winch.runWinch(RAISE_ARM_WINCH_SPEED);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
+	@Override
 	protected boolean isFinished() {
-        return true;
+		return true;
 	}
 
 	// Called once after isFinished returns true
+	@Override
 	protected void end() {
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
+	@Override
 	protected void interrupted() {
 	}
 }
