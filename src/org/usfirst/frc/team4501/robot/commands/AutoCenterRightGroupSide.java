@@ -24,11 +24,11 @@ public class AutoCenterRightGroupSide extends CommandGroup {
 		// e.g. if Command1 requires chassis, and Command2 requires arm,
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
-		addSequential(new DriveAutoTimed(3));
+		addSequential(new DriveAutoTimed(1));
 		addSequential(new GyroTurn(45));
-		addSequential(new DriveAutoTimed(4));
+		addSequential(new DriveAutoTimed(2));
 		addSequential(new GyroTurn(-45));
-		addSequential(new DriveAutoTimed(3));
+		addSequential(new DriveAutoTimed(1));
 		addSequential(new GyroTurn(-90));
 		addSequential(new DriveUntilCollision());
 		addSequential(new RunEverything());

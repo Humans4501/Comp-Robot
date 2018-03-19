@@ -11,8 +11,11 @@ public class DriveUntilCollision extends Command {
 	double lastX;
 	double lastY;
 	boolean running;
+	
+	int delayCounter;
 
 	final static double kCollisionThreshold_DeltaG = 0.5;
+	final static double Kp = 0.15;
 
 	public DriveUntilCollision() {
 		// Use requires() here to declare subsystem dependencies
@@ -25,7 +28,10 @@ public class DriveUntilCollision extends Command {
 	protected void initialize() {
 		lastX = Robot.builtInAccelerometer.getX();
 		lastY = Robot.builtInAccelerometer.getY();
+		delayCounter = 25;
 		running = true;
+		
+		Robot.analogGyro.reset();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -38,19 +44,21 @@ public class DriveUntilCollision extends Command {
 			double deltaX = currX - lastX;
 			double deltaY = currY - lastY;
 
-			System.out.printf("currX=%.2f lastX= %.2g currY=%.2f lastY=%.2f\n", currX, lastX, currY, lastY);
-
 			lastX = currX;
 			lastY = currY;
 
-			if (Math.abs(deltaX) > kCollisionThreshold_DeltaG || Math.abs(deltaY) > kCollisionThreshold_DeltaG) {
+			delayCounter--;
+			
+			if (delayCounter < 0 && (Math.abs(deltaX) > kCollisionThreshold_DeltaG || Math.abs(deltaY) > kCollisionThreshold_DeltaG)) {
 				System.out.println("HIT");
+				System.out.printf("deltaX=%.2f deltaY= %.2g\n", deltaX, deltaY );
 				running = false;
 				return;
 			}
 
-			Robot.driveTrain.driveTime(0.85, 0);
-		}
+			double angle = Robot.analogGyro.getAngle();
+			System.out.printf("Angle:%.2f\n", angle);
+			Robot.driveTrain.driveTime(0.7, angle * Kp);		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

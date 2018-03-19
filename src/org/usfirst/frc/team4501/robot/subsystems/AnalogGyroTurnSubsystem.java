@@ -6,12 +6,12 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AnalogGyroTurnSubsystem extends PIDSubsystem {
-	static double kP = 0.03;
+	static double kP = 0.01;
 	static double kI = 0.02;
 	static double kD = 0;
 	static double kF = 0;
 	static double kToleranceDegrees = 2;
-	static double kMaxOutputRange = .8;
+	static double kMaxOutputRange = .3;
 	
 	public double targetAngle;
 	public double rotateSpeed;
