@@ -1,15 +1,13 @@
 package org.usfirst.frc.team4501.robot.commands;
 
-import org.usfirst.frc.team4501.robot.Constants;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class RightToLeftFront extends CommandGroup {
+public class EVERYTHING extends CommandGroup {
 
-    public RightToLeftFront() {
+    public EVERYTHING() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -26,11 +24,6 @@ public class RightToLeftFront extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new DriveAutoTimed(Constants.PART_1));
-    	addSequential(new GyroTurn(-45));
-    	addSequential(new DriveAutoTimed(Constants.LONGWAY_FRONT)); //180 inches
-    	addSequential(new GyroTurn(45));
-    	addSequential(new DriveUntilCollision());
     	addSequential(new RunEverything(10));
     }
 }

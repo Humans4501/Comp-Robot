@@ -1,5 +1,8 @@
 package org.usfirst.frc.team4501.robot.commands;
 
+import org.usfirst.frc.team4501.robot.Constants;
+import org.usfirst.frc.team4501.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -24,13 +27,13 @@ public class AutoCenterLeftGroupSide extends CommandGroup {
 		// e.g. if Command1 requires chassis, and Command2 requires arm,
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
-		addSequential(new DriveAutoTimed(1));
+		addSequential(new DriveAutoTimed(Constants.PART_1)); //Initial going out distance
 		addSequential(new GyroTurn(-90));
-		addSequential(new DriveAutoTimed(4));
+		addSequential(new DriveAutoTimed(4)); //124.932 inches
 		addSequential(new GyroTurn(90));
-		addSequential(new DriveAutoTimed(3));
+		addSequential(new DriveAutoTimed(3)); //92.864 inches
 		addSequential(new GyroTurn(90));
 		addSequential(new DriveUntilCollision());
-		addSequential(new RunEverything());
+		addSequential(new RunEverything(10));
 	}
 }

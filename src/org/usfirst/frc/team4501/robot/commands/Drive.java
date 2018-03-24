@@ -21,8 +21,9 @@ public class Drive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
+    	if (Robot.instance.isTest() || !Robot.instance.isAutonomous()){
     	Robot.driveTrain.driveTime(-Robot.oi.getTriggers(), -Robot.oi.getLeftXboxX());
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -33,6 +34,7 @@ public class Drive extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.driveTrain.driveTime(0, 0);
+    	System.out.println("HAS ENDED");
     }
 
     // Called when another command which requires one or more of the same

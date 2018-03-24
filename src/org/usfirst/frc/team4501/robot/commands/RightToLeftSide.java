@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4501.robot.commands;
 
+import org.usfirst.frc.team4501.robot.Constants;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -24,12 +26,12 @@ public class RightToLeftSide extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new DriveAutoTimed(2));
+    	addSequential(new DriveAutoTimed(Constants.PART_1));
     	addSequential(new GyroTurn(-45));
-    	addSequential(new DriveAutoTimed(4));
+    	addSequential(new DriveAutoTimed(Constants.LONGWAY_SIDE));
     	addSequential(new GyroTurn(45));
-    	addSequential(new DriveAutoTimed(2));
+    	addSequential(new DriveAutoTimed(Constants.LONGWAY_SIDE_NUB));
     	addSequential(new GyroTurn(90));
-    	addSequential(new RunEverything());
+    	addSequential(new RunEverything(10));
     }
 }

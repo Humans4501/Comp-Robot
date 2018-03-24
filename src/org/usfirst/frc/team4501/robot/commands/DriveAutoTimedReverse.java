@@ -2,43 +2,39 @@ package org.usfirst.frc.team4501.robot.commands;
 
 import org.usfirst.frc.team4501.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 
 /**
  *
  */
-public class WinchHoldToRaiseArm extends Command {
-	private static final double RAISE_ARM_WINCH_SPEED = 0.7;
+public class DriveAutoTimedReverse extends TimedCommand {
 
-	private boolean done;
 
-	public WinchHoldToRaiseArm() {
+	public DriveAutoTimedReverse(double timeout) {
+		super(timeout);
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.winch);
+		requires(Robot.driveTrain);
+
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
-		done = false;
+		
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.winch.runWinch(RAISE_ARM_WINCH_SPEED);
+		Robot.driveTrain.tankDrive(-0.85, -0.85);
 	}
 
-	// Make this return true when this Command no longer needs to run execute()
-	@Override
-	protected boolean isFinished() {
-		return true;
-	}
-
-	// Called once after isFinished returns true
+	// Called once after timeout
 	@Override
 	protected void end() {
+		Robot.driveTrain.tankDrive(0, 0);
+		
 	}
 
 	// Called when another command which requires one or more of the same

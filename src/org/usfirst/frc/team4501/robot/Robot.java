@@ -15,11 +15,18 @@ import org.usfirst.frc.team4501.robot.commands.AutoLeftFront;
 import org.usfirst.frc.team4501.robot.commands.AutoLeftSide;
 import org.usfirst.frc.team4501.robot.commands.AutoRightFront;
 import org.usfirst.frc.team4501.robot.commands.AutoRightSide;
+import org.usfirst.frc.team4501.robot.commands.DriveForwardaLil;
+import org.usfirst.frc.team4501.robot.commands.EVERYTHING;
+import org.usfirst.frc.team4501.robot.commands.LAKUPIPU;
 import org.usfirst.frc.team4501.robot.commands.LeftToRightFront;
 import org.usfirst.frc.team4501.robot.commands.LeftToRightSide;
+import org.usfirst.frc.team4501.robot.commands.RIGHTLAKUPIPUAKAMAXCOFFEEPOWER;
 import org.usfirst.frc.team4501.robot.commands.RightToLeftFront;
 import org.usfirst.frc.team4501.robot.commands.RightToLeftSide;
+import org.usfirst.frc.team4501.robot.commands.SLOWWINCH;
 import org.usfirst.frc.team4501.robot.commands.SmoothDrive;
+import org.usfirst.frc.team4501.robot.commands.Turn90Left;
+import org.usfirst.frc.team4501.robot.commands.Turn90Right;
 import org.usfirst.frc.team4501.robot.subsystems.AnalogGyroTurnSubsystem;
 import org.usfirst.frc.team4501.robot.subsystems.Conveyor;
 import org.usfirst.frc.team4501.robot.subsystems.Drivetrain;
@@ -27,8 +34,11 @@ import org.usfirst.frc.team4501.robot.subsystems.Intake;
 import org.usfirst.frc.team4501.robot.subsystems.Shooter;
 import org.usfirst.frc.team4501.robot.subsystems.Winch;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -57,6 +67,8 @@ public class Robot extends TimedRobot {
 	public static final Shooter shooter = new Shooter();
 	public static final Conveyor conveyor = new Conveyor();
 	public static final Winch winch = new Winch();
+	
+	public String gameData;
 
 	public static OI oi;
 	public static Gyro analogGyro;
@@ -64,6 +76,8 @@ public class Robot extends TimedRobot {
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	SendableChooser<Command> m_chooser2 = new SendableChooser<>();
+
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -77,25 +91,37 @@ public class Robot extends TimedRobot {
 		analogGyro.calibrate();
 		builtInAccelerometer = new BuiltInAccelerometer(Accelerometer.Range.k4G);
 
-		// UsbCamera camera = new UsbCamera("FrontCamera", 0);
-		// camera.setResolution(160, 120);
-		// CameraServer.getInstance().startAutomaticCapture(camera);
-
-		m_chooser.addDefault("Center Right Front", new AutoCenterRightGroupFront());
-		m_chooser.addDefault("Center Right Side", new AutoCenterRightGroupSide());
-		m_chooser.addDefault("Center Left Front", new AutoCenterLeftGroupFront());
-		m_chooser.addDefault("Center Left Side", new AutoCenterLeftGroupSide());
-		m_chooser.addDefault("Right Front", new AutoRightFront());
-		m_chooser.addDefault("Right Side", new AutoRightSide());
-		m_chooser.addDefault("Left Front", new AutoLeftFront());
-		m_chooser.addDefault("Left Side", new AutoLeftSide());
-		m_chooser.addDefault("Left to Right Front", new LeftToRightFront());
-		m_chooser.addDefault("Left to Right Side", new LeftToRightSide());
-		m_chooser.addDefault("Right to Left Front", new RightToLeftFront());
-		m_chooser.addDefault("Right to Left Side", new RightToLeftSide());
+		 UsbCamera camera = new UsbCamera("FrontCamera", 0);
+		 camera.setResolution(160, 120);
+		 CameraServer.getInstance().startAutomaticCapture(camera);
+		
+		m_chooser.addObject("LEFT LAKUPIPU", new LAKUPIPU());
+		m_chooser2.addObject("RIGHT LAKUPIPU", new RIGHTLAKUPIPUAKAMAXCOFFEEPOWER());
+		m_chooser2.addObject("SLOWWINCH", new SLOWWINCH(2));
+		m_chooser2.addObject("Center Right Front", new AutoCenterRightGroupFront());
+		m_chooser2.addObject("Center Right Side", new AutoCenterRightGroupSide());
+		m_chooser.addObject("Center Left Front", new AutoCenterLeftGroupFront());
+		m_chooser.addObject("Center Left Side", new AutoCenterLeftGroupSide());
+		m_chooser2.addObject("Right Front", new AutoRightFront());
+		m_chooser2.addObject("Right Side", new AutoRightSide());
+		m_chooser.addObject("Left Front", new AutoLeftFront());
+		m_chooser.addObject("Left Side", new AutoLeftSide());
+		m_chooser2.addObject("Left to Right Front", new LeftToRightFront());
+		m_chooser2.addObject("Left to Right Side", new LeftToRightSide());
+		m_chooser.addObject("Right to Left Front", new RightToLeftFront());
+		m_chooser.addObject("Right to Left Side", new RightToLeftSide());
+		m_chooser2.addObject("Turn 90 Left", new Turn90Left());
+		m_chooser2.addObject("Turn 90 Right", new Turn90Right());
+		m_chooser2.addObject("Drive Forward Just a Little", new DriveForwardaLil());
+		m_chooser.addObject("EVERYTHING", new EVERYTHING());
+		m_chooser.addObject("Drive Forward Just a Little", new DriveForwardaLil());
 
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
+		SmartDashboard.putData("Left mode", m_chooser);
+		SmartDashboard.putData("Right mode", m_chooser2);
+		
+
+
 
 		// NetworkTable.setIPAddress("10.95.1.55");
 		// table = NetworkTable.getTable("limelight");
@@ -156,11 +182,24 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_chooser.getSelected();
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		
+		if(gameData.length()>0) {
+			if(gameData.charAt(0) == 'L') {
+				m_autonomousCommand = m_chooser.getSelected();
+			}else {
+				
+				m_autonomousCommand = m_chooser2.getSelected();
+				
+			}
+		}
+		
 		// Robot.driveTrain.shiftLow();
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
+				
+		
 
 	}
 

@@ -7,6 +7,8 @@ import org.usfirst.frc.team4501.robot.commands.LiftArm;
 import org.usfirst.frc.team4501.robot.commands.LowerArm;
 import org.usfirst.frc.team4501.robot.commands.MyNameIsBoxy;
 import org.usfirst.frc.team4501.robot.commands.MyNameIsBoxy2;
+import org.usfirst.frc.team4501.robot.commands.ShiftHigh;
+import org.usfirst.frc.team4501.robot.commands.ShiftLow;
 import org.usfirst.frc.team4501.robot.commands.StopEverything;
 import org.usfirst.frc.team4501.robot.commands.WinchClimb;
 import org.usfirst.frc.team4501.robot.commands.WinchHoldToRaiseArm;
@@ -75,8 +77,8 @@ public class OI {
 	Button lowerArm = new JoystickButton(controller2, controller2.BUTTON_BACK);
 
 	public OI() {
-		// shiftHigh.whenPressed(new ShiftHigh());
-		// shiftLow.whenPressed(new ShiftLow());
+	    shiftHigh.whenPressed(new ShiftHigh());
+		shiftLow.whenPressed(new ShiftLow());
 
 		liftArm.whenPressed(new LiftArm());
 		lowerArm.whenPressed(new LowerArm());

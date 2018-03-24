@@ -3,14 +3,16 @@ package org.usfirst.frc.team4501.robot.commands;
 import org.usfirst.frc.team4501.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 
 /**
  *
  */
-public class WinchClimb extends Command {
-	private final double FAST_WINCH_SPEED = 0.9;
+public class SLOWWINCH extends TimedCommand {
 
-    public WinchClimb() {
+	public SLOWWINCH(double timeout) {
+		super(timeout);
+    
     	requires(Robot.winch);
     }
 
@@ -20,7 +22,7 @@ public class WinchClimb extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.winch.runWinchOverrideLimitSwitch(FAST_WINCH_SPEED);
+    	Robot.winch.runWinch(0.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -30,6 +32,7 @@ public class WinchClimb extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.winch.runWinch(0);
     }
 
     // Called when another command which requires one or more of the same

@@ -31,6 +31,6 @@ public class LeftToRightFront extends CommandGroup {
 		addSequential(new DriveAutoTimed(Constants.LONGWAY_FRONT)); // 180 inches
 		addSequential(new GyroTurn(-45));
 		addSequential(new DriveUntilCollision());
-		addSequential(new RunEverything());
+		addSequential(new RunEverything(10));
 	}
 }

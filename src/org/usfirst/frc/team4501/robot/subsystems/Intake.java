@@ -32,8 +32,8 @@ public class Intake extends Subsystem {
 
 		intakeSystem = new RobotDrive(italon1, italon2);
 
-		// intakeSol = new DoubleSolenoid(RobotMap.INTAKESOL1 , RobotMap.INTAKESOL2);
-		// thirdWheel = new DoubleSolenoid(RobotMap.THIRDWHEEL1 , RobotMap.THIRDWHEEL2);
+		 intakeSol = new DoubleSolenoid(RobotMap.INTAKESOL1 , RobotMap.INTAKESOL2);
+		 thirdWheel = new DoubleSolenoid(RobotMap.THIRDWHEEL1 , RobotMap.THIRDWHEEL2);
 	}
 
 	// pot = new AnalogPotentiometer(RobotMap.SENSORS.POTENTIOMETERA,

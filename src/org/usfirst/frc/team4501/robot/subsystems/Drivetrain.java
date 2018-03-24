@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4501.robot.subsystems;
 
 import org.usfirst.frc.team4501.robot.RobotMap;
+import org.usfirst.frc.team4501.robot.commands.Drive;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -19,7 +20,9 @@ public class Drivetrain extends Subsystem {
 	Talon talon1, talon2, talon3, talon4;
 	RobotDrive drive;
 
-	DoubleSolenoid driveSol;
+	 DoubleSolenoid driveSol;
+	 
+	 DoubleSolenoid.Value desiredValue;
 
 	public Drivetrain() {
 		instance = this;
@@ -27,7 +30,7 @@ public class Drivetrain extends Subsystem {
 		talon1 = new Talon(RobotMap.TALON_1);
 		talon2 = new Talon(RobotMap.TALON_2);
 
-		// driveSol = new DoubleSolenoid(RobotMap.DRIVESOL1, RobotMap.DRIVESOL2);
+		driveSol = new DoubleSolenoid(RobotMap.DRIVESOL1, RobotMap.DRIVESOL2);
 
 		drive = new RobotDrive(talon1, talon2);
 	}
@@ -47,14 +50,23 @@ public class Drivetrain extends Subsystem {
 
 	@Override
 	public void initDefaultCommand() {
+		setDefaultCommand(new Drive());
 	}
 
-	// public void shiftHigh() {
-	// driveSol.set(DoubleSolenoid.Value.kForward);
-	// }
-	//
-	// public void shiftLow() {
-	// driveSol.set(DoubleSolenoid.Value.kReverse);
-	// }
+	 public void shiftHigh() {
+			desiredValue = DoubleSolenoid.Value.kForward;
+
+	 driveSol.set(desiredValue);
+	 }
+	
+	 public void shiftLow() {
+			desiredValue = DoubleSolenoid.Value.kReverse;
+	 driveSol.set(desiredValue);
+	 }
+	 
+	 public boolean isShifted() {
+		 return driveSol.get() == desiredValue;
+		 
+	 }
 
 }
