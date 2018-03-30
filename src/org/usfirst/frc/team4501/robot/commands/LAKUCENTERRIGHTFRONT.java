@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class LeftToRightSide extends CommandGroup {
+public class LAKUCENTERRIGHTFRONT extends CommandGroup {
 
-	public LeftToRightSide() {
+	public LAKUCENTERRIGHTFRONT() {
 		// Add Commands here:
 		// e.g. addSequential(new Command1());
 		// addSequential(new Command2());
@@ -26,11 +26,9 @@ public class LeftToRightSide extends CommandGroup {
 		// e.g. if Command1 requires chassis, and Command2 requires arm,
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
-		addSequential(new DriveAutoTimed(Constants.LRSTART)); // 9.7 inches
-		addSequential(new GyroTurn(45));
-		addSequential(new DriveAutoTimed(Constants.LONGWAY_SIDE)); //  inches
-		addSequential(new GyroTurn(-45));
-		addSequential(new DriveAutoTimed(Constants.LONGWAY_SIDE_NUB));
+		addSequential(new DriveAutoTimed(Constants.PART_1_HALVED)); // Initial going out distance
+		addSequential(new GyroTurn(90));
+		addSequential(new DriveAutoTimed(Constants.LONGWAYHALVED)); // 88.755 inches
 		addSequential(new GyroTurn(-90));
 		addSequential(new DriveUntilCollision());
 		addSequential(new RunEverything(10));

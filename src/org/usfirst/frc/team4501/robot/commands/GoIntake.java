@@ -2,20 +2,17 @@ package org.usfirst.frc.team4501.robot.commands;
 
 import org.usfirst.frc.team4501.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.TimedCommand;
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class RunEverything extends TimedCommand {
+public class GoIntake extends Command {
 
-	public RunEverything(double timeout) {
-		super(timeout);
+	public GoIntake() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.intake);
-		requires(Robot.shooter);
-		requires(Robot.conveyor);
 	}
 
 	// Called just before this Command runs the first time
@@ -24,13 +21,17 @@ public class RunEverything extends TimedCommand {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.intake.intake(1, 0);
-		Robot.shooter.shoot(1, 1);
-		Robot.conveyor.convey(0.8, 0.8);
-
+		if (Robot.instance.isTest() || !Robot.instance.isAutonomous()) {
+			Robot.intake.intake(Robot.oi.getLeftTrigger2(), Robot.oi.getLeftTrigger2());
+		}
 	}
 
-	// Called once after timeout
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		return false;
+	}
+
+	// Called once after isFinished returns true
 	protected void end() {
 	}
 

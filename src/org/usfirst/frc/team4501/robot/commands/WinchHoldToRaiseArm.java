@@ -22,6 +22,8 @@ public class WinchHoldToRaiseArm extends Command {
 	@Override
 	protected void initialize() {
 		done = false;
+		Robot.winch.resetLimitSwitch();
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run

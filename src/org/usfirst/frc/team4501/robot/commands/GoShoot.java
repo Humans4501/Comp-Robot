@@ -7,39 +7,45 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class LowerArm extends Command {
 
-	public LowerArm() {
+public class GoShoot extends Command {
+
+	public GoShoot() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.intake);
+		requires(Robot.shooter);
 	}
 
 	// Called just before this Command runs the first time
-	@Override
 	protected void initialize() {
 	}
 
 	// Called repeatedly when this Command is scheduled to run
-	@Override
 	protected void execute() {
-		Robot.intake.liftDown();
+		if (Robot.instance.isTest() || !Robot.instance.isAutonomous()) {
+			double speed = Robot.oi.getRightTrigger2();
+			if (speed > 0.8) {
+				speed = 0.8;
+			}
+			if (Robot.oi.getLeftTrigger2() > 0) {
+				Robot.shooter.shoot(Robot.oi.getLeftTrigger2(), Robot.oi.getLeftTrigger2());
+			} else {
+				Robot.shooter.shoot(speed, speed);
+			}
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
-	@Override
 	protected boolean isFinished() {
-		return true;
+		return false;
 	}
 
 	// Called once after isFinished returns true
-	@Override
 	protected void end() {
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
-	@Override
 	protected void interrupted() {
 	}
 }

@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.TimedCommand;
 /**
  *
  */
-public class RunEverything extends TimedCommand {
+public class RunEverythingLong extends TimedCommand {
 
-	public RunEverything(double timeout) {
+	public RunEverythingLong(double timeout) {
 		super(timeout);
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
@@ -26,7 +26,7 @@ public class RunEverything extends TimedCommand {
 	protected void execute() {
 		Robot.intake.intake(1, 0);
 		Robot.shooter.shoot(1, 1);
-		Robot.conveyor.convey(0.8, 0.8);
+		Robot.conveyor.convey(1, 1);
 
 	}
 

@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutoRightFront extends CommandGroup {
+public class L2R extends CommandGroup {
 
-	public AutoRightFront() {
+	public L2R() {
 		// Add Commands here:
 		// e.g. addSequential(new Command1());
 		// addSequential(new Command2());
@@ -26,12 +26,11 @@ public class AutoRightFront extends CommandGroup {
 		// e.g. if Command1 requires chassis, and Command2 requires arm,
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
-
-		addSequential(new DriveAutoTimed(Constants.PART_1)); //Initial going out distance
-		addSequential(new GyroTurn(-45));
-		addSequential(new DriveAutoTimed(Constants.SAME_TO_SAME_2_FRONT)); //47.444 inches
-		addSequential(new GyroTurn(45));
-		addSequential(new DriveUntilCollision());
-		addSequential(new RunEverything(10));
+		addSequential(new DriveAutoTimed(Constants.LONGWAY_PART_1)); // 9.7 inches
+		addSequential(new GyroTurn(90));
+		addSequential(new DriveAutoTimed(Constants.LONGWAY)); // inches
+		addSequential(new GyroTurn(90));
+		addSequential(new Delay(1));
+		addSequential(new RunEverythingLong(10));
 	}
 }

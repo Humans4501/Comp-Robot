@@ -1,3 +1,4 @@
+
 package org.usfirst.frc.team4501.robot.commands;
 
 import org.usfirst.frc.team4501.robot.Constants;
@@ -7,9 +8,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutoRightSide extends CommandGroup {
+public class R2L extends CommandGroup {
 
-	public AutoRightSide() {
+	public R2L() {
 		// Add Commands here:
 		// e.g. addSequential(new Command1());
 		// addSequential(new Command2());
@@ -26,9 +27,11 @@ public class AutoRightSide extends CommandGroup {
 		// e.g. if Command1 requires chassis, and Command2 requires arm,
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
-		addSequential(new DriveAutoTimed(Constants.SAME_TO_SAME_1_SIDE)); //164.593 inches
-		addSequential(new GyroTurn(90));
-		addSequential(new DriveUntilCollision());
-		addSequential(new RunEverything(10));
+		addSequential(new DriveAutoTimed(Constants.LONGWAY_PART_1)); // 9.7 inches
+		addSequential(new GyroTurn(-90));
+		addSequential(new DriveAutoTimed(Constants.LONGWAY)); // inches
+		addSequential(new GyroTurn(-90));
+		addSequential(new Delay(1));
+		addSequential(new RunEverythingLong(10));
 	}
 }

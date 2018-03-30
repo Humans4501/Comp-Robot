@@ -55,7 +55,7 @@ public class RobotMap {
 	public static final int INTAKESOL2 = 7;
 
 	public static final int LIFTSOL1 = 2;
-	public static final int LIFTSOL2 = 3;
+	public static final int LIFTSOL2 = 5;
 
 	public static final int THIRDWHEEL1 = 2;
 	public static final int THIRDWHEEL2 = 5;

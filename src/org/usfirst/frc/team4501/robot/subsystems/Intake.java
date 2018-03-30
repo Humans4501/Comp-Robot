@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4501.robot.subsystems;
 
 import org.usfirst.frc.team4501.robot.RobotMap;
+import org.usfirst.frc.team4501.robot.commands.GoIntake;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -19,7 +20,7 @@ public class Intake extends Subsystem {
 
 	DoubleSolenoid intakeSol;
 	DoubleSolenoid thirdWheel;
-	DoubleSolenoid liftSol;
+	DoubleSolenoid liftSol, intakeSol2;
 
 	RobotDrive intakeSystem;
 
@@ -28,12 +29,10 @@ public class Intake extends Subsystem {
 		italon1 = new Talon(RobotMap.INTAKETALON_1);
 		italon2 = new Talon(RobotMap.INTAKETALON_2);
 
-		// liftSol = new DoubleSolenoid(RobotMap.LIFTSOL1, RobotMap.LIFTSOL2);
-
 		intakeSystem = new RobotDrive(italon1, italon2);
 
-		 intakeSol = new DoubleSolenoid(RobotMap.INTAKESOL1 , RobotMap.INTAKESOL2);
-		 thirdWheel = new DoubleSolenoid(RobotMap.THIRDWHEEL1 , RobotMap.THIRDWHEEL2);
+		intakeSol = new DoubleSolenoid(RobotMap.INTAKESOL1, RobotMap.INTAKESOL2);
+		intakeSol2 = new DoubleSolenoid(RobotMap.LIFTSOL1, RobotMap.LIFTSOL2);
 	}
 
 	// pot = new AnalogPotentiometer(RobotMap.SENSORS.POTENTIOMETERA,
@@ -45,27 +44,25 @@ public class Intake extends Subsystem {
 	}
 
 	public void intakeOpen() {
-		intakeSol.set(DoubleSolenoid.Value.kReverse);
-		thirdWheel.set(DoubleSolenoid.Value.kReverse);
+		intakeSol.set(DoubleSolenoid.Value.kForward);
 	}
 
 	public void intakeClose() {
-		intakeSol.set(DoubleSolenoid.Value.kForward);
-		thirdWheel.set(DoubleSolenoid.Value.kForward);
+		intakeSol.set(DoubleSolenoid.Value.kReverse);
 	}
 
-	public void liftUp() {
-		liftSol.set(DoubleSolenoid.Value.kForward);
+	public void intake2Open() {
+		intakeSol2.set(DoubleSolenoid.Value.kForward);
 	}
 
-	public void liftDown() {
-		liftSol.set(DoubleSolenoid.Value.kReverse);
+	public void intake2Close() {
+		intakeSol2.set(DoubleSolenoid.Value.kReverse);
 	}
 
 	@Override
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
-
+		setDefaultCommand(new GoIntake());
 	}
 }
