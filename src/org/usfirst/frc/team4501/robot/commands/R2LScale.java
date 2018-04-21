@@ -31,12 +31,11 @@ public class R2LScale extends CommandGroup {
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
 	}
-
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
 		super.initialize();
-
+	
 		Robot.instance.gameData = DriverStation.getInstance().getGameSpecificMessage();
 
 		if (Robot.instance.gameData.length() > 0) {

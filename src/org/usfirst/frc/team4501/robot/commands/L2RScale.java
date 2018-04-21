@@ -30,9 +30,9 @@ public class L2RScale extends CommandGroup {
 		// e.g. if Command1 requires chassis, and Command2 requires arm,
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
-
+		
 	}
-
+	
 	protected void initialize() {
 		Robot.instance.gameData = DriverStation.getInstance().getGameSpecificMessage();
 
