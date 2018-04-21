@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class SmoothDrive extends Command {
 
-	public final double maxPowerPerSecond = 1.5;
-	public final double maxTurnPerSecond = 2;
+	public final double maxPowerPerSecond = 1;
+	public final double maxTurnPerSecond = 1.5;
 
 	public final double thresholdTurn = 0.6;
 	public final double thresholdPower = 0.6;

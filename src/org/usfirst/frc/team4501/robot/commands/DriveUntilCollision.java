@@ -8,13 +8,14 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class DriveUntilCollision extends Command {
+	long expiry;
 	double lastX;
 	double lastY;
 	boolean running;
-	
+
 	int delayCounter;
 
-	final static double kCollisionThreshold_DeltaG = 0.5;
+	final static double kCollisionThreshold_DeltaG = 0.4;
 	final static double Kp = 0.15;
 
 	public DriveUntilCollision() {
@@ -26,11 +27,12 @@ public class DriveUntilCollision extends Command {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
+		expiry = System.currentTimeMillis() + 4000;
 		lastX = Robot.builtInAccelerometer.getX();
 		lastY = Robot.builtInAccelerometer.getY();
 		delayCounter = 25;
 		running = true;
-		
+
 		Robot.analogGyro.reset();
 	}
 
@@ -48,17 +50,24 @@ public class DriveUntilCollision extends Command {
 			lastY = currY;
 
 			delayCounter--;
-			
-			if (delayCounter < 0 && (Math.abs(deltaX) > kCollisionThreshold_DeltaG || Math.abs(deltaY) > kCollisionThreshold_DeltaG)) {
+
+			if (delayCounter < 0 && (Math.abs(deltaX) > kCollisionThreshold_DeltaG
+					|| Math.abs(deltaY) > kCollisionThreshold_DeltaG)) {
 				System.out.println("HIT");
-				System.out.printf("deltaX=%.2f deltaY= %.2g\n", deltaX, deltaY );
+				System.out.printf("deltaX=%.2f deltaY= %.2g\n", deltaX, deltaY);
+				running = false;
+				return;
+			}
+
+			if (System.currentTimeMillis() > expiry) {
 				running = false;
 				return;
 			}
 
 			double angle = Robot.analogGyro.getAngle();
 			System.out.printf("Angle:%.2f\n", angle);
-			Robot.driveTrain.driveTime(0.7, angle * Kp);		}
+			Robot.driveTrain.driveTime(0.7, angle * Kp);
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

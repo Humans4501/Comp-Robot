@@ -35,8 +35,9 @@ public class Winch extends Subsystem {
 	 */
 	public void runWinch(double speed) {
 		// Force speed to zero if the switch has been tripped.
-		System.out.println("Limit Switch =" + isLimitSwitchSet());
+
 		winchSpeed = isLimitSwitchSet() ? 0 : speed;
+		System.out.println("Limit Switch =" + winchSpeed);
 		talon1.set(winchSpeed);
 	}
 

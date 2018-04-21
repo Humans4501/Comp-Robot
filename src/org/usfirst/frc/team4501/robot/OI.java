@@ -5,6 +5,8 @@ import org.usfirst.frc.team4501.robot.commands.Intake2Close;
 import org.usfirst.frc.team4501.robot.commands.Intake2Open;
 import org.usfirst.frc.team4501.robot.commands.IntakeClose;
 import org.usfirst.frc.team4501.robot.commands.IntakeOpen;
+import org.usfirst.frc.team4501.robot.commands.IntakeStop;
+import org.usfirst.frc.team4501.robot.commands.JustIntake;
 import org.usfirst.frc.team4501.robot.commands.ShiftHigh;
 import org.usfirst.frc.team4501.robot.commands.ShiftLow;
 import org.usfirst.frc.team4501.robot.commands.StopEverything;
@@ -61,6 +63,8 @@ public class OI {
 	Button intakeOpen = new JoystickButton(controller2, controller2.BUTTON_A);
 	Button intakeClose = new JoystickButton(controller2, controller2.BUTTON_B);
 
+	Button justIntake = new JoystickButton(controller2, controller2.BUMPER_R);
+
 	Button intake2Open = new JoystickButton(controller2, controller2.BUTTON_X);
 	Button intake2Close = new JoystickButton(controller2, controller2.BUTTON_Y);
 	// Command Groups
@@ -72,11 +76,14 @@ public class OI {
 	Button winchClimb = new JoystickButton(controller, controller.BUTTON_Y);
 
 	public OI() {
-		shiftHigh.whenPressed(new ShiftHigh());
-		shiftLow.whenPressed(new ShiftLow());
+		shiftHigh.whenPressed(new ShiftLow());
+		shiftHigh.whenReleased(new ShiftHigh());
 
 		intakeOpen.whenPressed(new IntakeOpen());
 		intakeClose.whenPressed(new IntakeClose());
+
+		justIntake.whenPressed(new JustIntake());
+		justIntake.whenReleased(new IntakeStop());
 
 		intake2Open.whenPressed(new Intake2Open());
 		intake2Close.whenPressed(new Intake2Close());
@@ -84,7 +91,7 @@ public class OI {
 		ejection.whileHeld(new Eject());
 		ejection.whenReleased(new StopEverything());
 
-		winchHoldToRaise.whileHeld(new WinchHoldToRaiseArm());
+		winchHoldToRaise.whenPressed(new WinchHoldToRaiseArm());
 		winchHoldToRaise.whenReleased(new WinchStop());
 
 		winchClimb.whileHeld(new WinchClimb());

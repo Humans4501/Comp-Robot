@@ -13,6 +13,7 @@ import org.usfirst.frc.team4501.robot.commands.GoConveyor;
 import org.usfirst.frc.team4501.robot.commands.GoIntake;
 import org.usfirst.frc.team4501.robot.commands.GoShoot;
 import org.usfirst.frc.team4501.robot.commands.L2R;
+import org.usfirst.frc.team4501.robot.commands.L2RScale;
 import org.usfirst.frc.team4501.robot.commands.LAKUCENTERLEFTFRONT;
 import org.usfirst.frc.team4501.robot.commands.LAKUCENTERLEFTSIDE;
 import org.usfirst.frc.team4501.robot.commands.LAKUCENTERRIGHTFRONT;
@@ -20,6 +21,7 @@ import org.usfirst.frc.team4501.robot.commands.LAKUCENTERRIGHTSIDE;
 import org.usfirst.frc.team4501.robot.commands.LEFTFRONT;
 import org.usfirst.frc.team4501.robot.commands.LEFTSIDE;
 import org.usfirst.frc.team4501.robot.commands.R2L;
+import org.usfirst.frc.team4501.robot.commands.R2LScale;
 import org.usfirst.frc.team4501.robot.commands.RIGHTFRONT;
 import org.usfirst.frc.team4501.robot.commands.RIGHTSIDE;
 import org.usfirst.frc.team4501.robot.commands.SLOWWINCH;
@@ -67,7 +69,7 @@ public class Robot extends TimedRobot {
 	public static final Conveyor conveyor = new Conveyor();
 	public static final Winch winch = new Winch();
 
-	public String gameData;
+	public String gameData = "";
 
 	public static OI oi;
 	public static Gyro analogGyro;
@@ -101,7 +103,9 @@ public class Robot extends TimedRobot {
 		m_chooser.addDefault("Center Left Side", new LAKUCENTERLEFTSIDE());
 		m_chooser2.addDefault("Right Front", new RIGHTFRONT());
 		m_chooser.addDefault("Left Front", new LEFTFRONT());
+		m_chooser2.addDefault("Left to Right Side Scale", new L2RScale());
 		m_chooser2.addDefault("Left to Right Side", new L2R());
+		m_chooser.addDefault("Right to Left Side Scale", new R2LScale());
 		m_chooser.addDefault("Right to Left Side", new R2L());
 		m_chooser2.addDefault("Turn 90 Left", new Turn90Left());
 		m_chooser2.addDefault("Turn 90 Right", new Turn90Right());
@@ -174,6 +178,8 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
 
+		Robot.driveTrain.shiftHigh();
+
 		if (gameData.length() > 0) {
 			if (gameData.charAt(0) == 'L') {
 				m_autonomousCommand = m_chooser.getSelected();
@@ -218,6 +224,8 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().add(new GoConveyor());
 		Scheduler.getInstance().add(new GoIntake());
 		Scheduler.getInstance().add(new GoShoot());
+
+		Robot.driveTrain.shiftHigh();
 
 		// Robot.driveTrain.shiftLow();
 	}
