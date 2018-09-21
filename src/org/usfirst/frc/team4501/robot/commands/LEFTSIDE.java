@@ -1,13 +1,15 @@
 package org.usfirst.frc.team4501.robot.commands;
 
+import org.usfirst.frc.team4501.robot.Constants;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class AutoCenterLeftGroupFront extends CommandGroup {
+public class LEFTSIDE extends CommandGroup {
 
-	public AutoCenterLeftGroupFront() {
+	public LEFTSIDE() {
 		// Add Commands here:
 		// e.g. addSequential(new Command1());
 		// addSequential(new Command2());
@@ -24,11 +26,10 @@ public class AutoCenterLeftGroupFront extends CommandGroup {
 		// e.g. if Command1 requires chassis, and Command2 requires arm,
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
-		addSequential(new DriveAutoTimed(10));
+		addSequential(new DriveAutoTimed2(Constants.PART_1));
+		addSequential(new Delay(0.25));
 		addSequential(new GyroTurn(90));
-		addSequential(new DriveAutoTimed(4));
-		addSequential(new GyroTurn(-90));
 		addSequential(new DriveUntilCollision());
-		addSequential(new RunEverything());
+		addSequential(new RunEverything(10));
 	}
 }

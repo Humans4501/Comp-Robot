@@ -1,44 +1,31 @@
 package org.usfirst.frc.team4501.robot.commands;
 
-import org.usfirst.frc.team4501.robot.Robot;
-
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class StopEverything extends Command {
+public class StopEverything extends CommandGroup {
 
-    public StopEverything() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(Robot.intake);
-    	requires(Robot.shooter);
-    	requires(Robot.conveyor);
-    }
+	public StopEverything() {
+		// Add Commands here:
+		// e.g. addSequential(new Command1());
+		// addSequential(new Command2());
+		// these will run in order.
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    }
+		// To run multiple commands at the same time,
+		// use addParallel()
+		// e.g. addParallel(new Command1());
+		// addSequential(new Command2());
+		// Command1 and Command2 will run in parallel.
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	Robot.intake.intake(0, 0);
-    	Robot.shooter.shoot(0, 0);
-    	Robot.conveyor.convey(0, 0);
-    }
-
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return false;
-    }
-
-    // Called once after isFinished returns true
-    protected void end() {
-    }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    }
+		// A command group will require all of the subsystems that each member
+		// would require.
+		// e.g. if Command1 requires chassis, and Command2 requires arm,
+		// a CommandGroup containing them would require both the chassis and the
+		// arm.
+		addParallel(new IntakeStop());
+		addParallel(new ConveyStop());
+		addParallel(new ShootStop());
+	}
 }

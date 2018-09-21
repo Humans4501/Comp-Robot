@@ -7,19 +7,27 @@
 
 package org.usfirst.frc.team4501.robot;
 
-import org.usfirst.frc.team4501.robot.commands.AutoCenterLeftGroupFront;
-import org.usfirst.frc.team4501.robot.commands.AutoCenterLeftGroupSide;
-import org.usfirst.frc.team4501.robot.commands.AutoCenterRightGroupFront;
-import org.usfirst.frc.team4501.robot.commands.AutoCenterRightGroupSide;
-import org.usfirst.frc.team4501.robot.commands.AutoLeftFront;
-import org.usfirst.frc.team4501.robot.commands.AutoLeftSide;
-import org.usfirst.frc.team4501.robot.commands.AutoRightFront;
-import org.usfirst.frc.team4501.robot.commands.AutoRightSide;
-import org.usfirst.frc.team4501.robot.commands.LeftToRightFront;
-import org.usfirst.frc.team4501.robot.commands.LeftToRightSide;
-import org.usfirst.frc.team4501.robot.commands.RightToLeftFront;
-import org.usfirst.frc.team4501.robot.commands.RightToLeftSide;
+import org.usfirst.frc.team4501.robot.commands.DriveForwardaLil;
+import org.usfirst.frc.team4501.robot.commands.EVERYTHING;
+import org.usfirst.frc.team4501.robot.commands.GoConveyor;
+import org.usfirst.frc.team4501.robot.commands.GoIntake;
+import org.usfirst.frc.team4501.robot.commands.GoShoot;
+import org.usfirst.frc.team4501.robot.commands.L2R;
+import org.usfirst.frc.team4501.robot.commands.L2RScale;
+import org.usfirst.frc.team4501.robot.commands.LAKUCENTERLEFTFRONT;
+import org.usfirst.frc.team4501.robot.commands.LAKUCENTERLEFTSIDE;
+import org.usfirst.frc.team4501.robot.commands.LAKUCENTERRIGHTFRONT;
+import org.usfirst.frc.team4501.robot.commands.LAKUCENTERRIGHTSIDE;
+import org.usfirst.frc.team4501.robot.commands.LEFTFRONT;
+import org.usfirst.frc.team4501.robot.commands.LEFTSIDE;
+import org.usfirst.frc.team4501.robot.commands.R2L;
+import org.usfirst.frc.team4501.robot.commands.R2LScale;
+import org.usfirst.frc.team4501.robot.commands.RIGHTFRONT;
+import org.usfirst.frc.team4501.robot.commands.RIGHTSIDE;
+import org.usfirst.frc.team4501.robot.commands.SLOWWINCH;
 import org.usfirst.frc.team4501.robot.commands.SmoothDrive;
+import org.usfirst.frc.team4501.robot.commands.Turn90Left;
+import org.usfirst.frc.team4501.robot.commands.Turn90Right;
 import org.usfirst.frc.team4501.robot.subsystems.AnalogGyroTurnSubsystem;
 import org.usfirst.frc.team4501.robot.subsystems.Conveyor;
 import org.usfirst.frc.team4501.robot.subsystems.Drivetrain;
@@ -27,12 +35,11 @@ import org.usfirst.frc.team4501.robot.subsystems.Intake;
 import org.usfirst.frc.team4501.robot.subsystems.Shooter;
 import org.usfirst.frc.team4501.robot.subsystems.Winch;
 
-import com.kauailabs.navx.frc.AHRS;
-
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -55,12 +62,14 @@ public class Robot extends TimedRobot {
 	NetworkTable table;
 
 	public static final Drivetrain driveTrain = new Drivetrain();
-	public static final AnalogGyroTurnSubsystem analogGyroTurn = new AnalogGyroTurnSubsystem(); 
+	public static final AnalogGyroTurnSubsystem analogGyroTurn = new AnalogGyroTurnSubsystem();
 
 	public static final Intake intake = new Intake();
 	public static final Shooter shooter = new Shooter();
 	public static final Conveyor conveyor = new Conveyor();
 	public static final Winch winch = new Winch();
+
+	public String gameData = "";
 
 	public static OI oi;
 	public static Gyro analogGyro;
@@ -68,6 +77,7 @@ public class Robot extends TimedRobot {
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	SendableChooser<Command> m_chooser2 = new SendableChooser<>();
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -81,44 +91,51 @@ public class Robot extends TimedRobot {
 		analogGyro.calibrate();
 		builtInAccelerometer = new BuiltInAccelerometer(Accelerometer.Range.k4G);
 
-	
-		
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
+		camera.setResolution(160, 120);
 
-		m_chooser.addDefault("Center Right Front", new AutoCenterRightGroupFront());
-		m_chooser.addDefault("Center Right Side", new AutoCenterRightGroupSide());
-		m_chooser.addDefault("Center Left Front", new AutoCenterLeftGroupFront());
-		m_chooser.addDefault("Center Left Side", new AutoCenterLeftGroupSide());
-		m_chooser.addDefault("Right Front", new AutoRightFront());
-		m_chooser.addDefault("Right Side", new AutoRightSide());
-		m_chooser.addDefault("Left Front", new AutoLeftFront());
-		m_chooser.addDefault("Left Side", new AutoLeftSide());
-		m_chooser.addDefault("Left to Right Front", new LeftToRightFront());
-		m_chooser.addDefault("Left to Right Side", new LeftToRightSide());
-		m_chooser.addDefault("Right to Left Front", new RightToLeftFront());
-		m_chooser.addDefault("Right to Left Side", new RightToLeftSide());
+		m_chooser.addDefault("LEFT SIDE", new LEFTSIDE());
+		m_chooser2.addDefault("RIGHT SIDE", new RIGHTSIDE());
+		m_chooser2.addDefault("SLOWWINCH", new SLOWWINCH(2));
+		m_chooser2.addDefault("Center Right Front", new LAKUCENTERRIGHTFRONT());
+		m_chooser2.addDefault("Center Right Side", new LAKUCENTERRIGHTSIDE());
+		m_chooser.addDefault("Center Left Front", new LAKUCENTERLEFTFRONT());
+		m_chooser.addDefault("Center Left Side", new LAKUCENTERLEFTSIDE());
+		m_chooser2.addDefault("Right Front", new RIGHTFRONT());
+		m_chooser.addDefault("Left Front", new LEFTFRONT());
+		m_chooser2.addDefault("Left to Right Side Scale", new L2RScale());
+		m_chooser2.addDefault("Left to Right Side", new L2R());
+		m_chooser.addDefault("Right to Left Side Scale", new R2LScale());
+		m_chooser.addDefault("Right to Left Side", new R2L());
+		m_chooser2.addDefault("Turn 90 Left", new Turn90Left());
+		m_chooser2.addDefault("Turn 90 Right", new Turn90Right());
+		m_chooser2.addDefault("Drive Forward Just a Little", new DriveForwardaLil());
+		m_chooser.addDefault("EVERYTHING", new EVERYTHING());
+		m_chooser.addDefault("Drive Forward Just a Little", new DriveForwardaLil());
 
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
-		SmartDashboard.putNumber("CurrXACCL:", 0);
-		SmartDashboard.putNumber("CurrYACCL:", 0);
+		// chooser.addDefault("My Auto", new MyAutoCommand());
+		SmartDashboard.putData("Left mode", m_chooser);
+		SmartDashboard.putData("Right mode", m_chooser2);
 
-//		NetworkTable.setIPAddress("10.95.1.55");
-//		table = NetworkTable.getTable("limelight");
-		// chooser.addObject("My Auto", new MyAutoCommand());
+		// NetworkTable.setIPAddress("10.95.1.55");
+		// table = NetworkTable.getTable("limelight");
+		// chooser.addDefault("My Auto", new MyAutoCommand());
 
-		// m_chooser.addObject("Test Timed Auto", new DriveAutoTimed(1));
-		// m_chooser.addObject("Test VisionPID", new VisionPID());
+		// m_chooser.addDefault("Test Timed Auto", new DriveAutoTimed(1));
+		// m_chooser.addDefault("Test VisionPID", new VisionPID());
 		//
-		// m_chooser.addObject("Center", new AutoCenterGroup());
-		// m_chooser.addObject("Left/Right", new AutoLeftorRightGroup());
+		// m_chooser.addDefault("Center", new AutoCenterGroup());
+		// m_chooser.addDefault("Left/Right", new AutoLeftorRightGroup());
 	}
 
 	@Override
 	public void robotPeriodic() {
 		super.robotPeriodic();
-		
+
 		// AnalogGyro
 		SmartDashboard.putNumber("AnalogGyro_Angle", analogGyro.getAngle());
+		SmartDashboard.putNumber("Acceleration X", builtInAccelerometer.getX());
+		SmartDashboard.putNumber("Acceleration Y", builtInAccelerometer.getY());
 
 		// L I M E L I G H T
 		// double tx = table.getNumber("tx", 0);
@@ -159,10 +176,25 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_chooser.getSelected();
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+
+		Robot.driveTrain.shiftHigh();
+
+		if (gameData.length() > 0) {
+			if (gameData.charAt(0) == 'L') {
+				m_autonomousCommand = m_chooser.getSelected();
+			} else {
+
+				m_autonomousCommand = m_chooser2.getSelected();
+
+			}
+		}
+
+		// Robot.driveTrain.shiftLow();
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
+
 	}
 
 	/**
@@ -183,8 +215,19 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+
+		// Arm the winch limit switch.
+		Robot.winch.resetLimitSwitch();
+
 		// Start smooth driving.
 		Scheduler.getInstance().add(new SmoothDrive());
+		Scheduler.getInstance().add(new GoConveyor());
+		Scheduler.getInstance().add(new GoIntake());
+		Scheduler.getInstance().add(new GoShoot());
+
+		Robot.driveTrain.shiftHigh();
+
+		// Robot.driveTrain.shiftLow();
 	}
 
 	/**
@@ -194,7 +237,6 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 	}
-	
 
 	/**
 	 * This function is called periodically during test mode.

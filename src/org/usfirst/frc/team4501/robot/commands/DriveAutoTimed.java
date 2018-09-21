@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.TimedCommand;
  */
 public class DriveAutoTimed extends TimedCommand {
 
-	double Kp = 0.03;
+	double Kp = 0.15;
 
 	public DriveAutoTimed(double timeout) {
 		super(timeout);
@@ -22,6 +22,7 @@ public class DriveAutoTimed extends TimedCommand {
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize() {
+		System.out.println("Initialize");
 		Robot.analogGyro.reset();
 	}
 
@@ -29,7 +30,8 @@ public class DriveAutoTimed extends TimedCommand {
 	@Override
 	protected void execute() {
 		double angle = Robot.analogGyro.getAngle();
-		Robot.driveTrain.driveTime(0.85, angle * Kp);
+		System.out.printf("Angle:%.2f\n", angle);
+		Robot.driveTrain.driveTime(0.7, angle * Kp);
 	}
 
 	// Called once after timeout

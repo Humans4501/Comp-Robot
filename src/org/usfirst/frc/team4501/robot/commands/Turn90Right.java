@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class RightToLeftFront extends CommandGroup {
+public class Turn90Right extends CommandGroup {
 
-    public RightToLeftFront() {
+    public Turn90Right() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -24,10 +24,6 @@ public class RightToLeftFront extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new DriveAutoTimed(2));
-    	addSequential(new GyroTurn(-45));
-    	addSequential(new DriveAutoTimed(8));
-    	addSequential(new GyroTurn(45));
-    	addSequential(new RunEverything());
+    	addSequential(new GyroTurn(90));
     }
 }
